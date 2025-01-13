@@ -1,5 +1,13 @@
 # @inlang/paraglide-js
 
+## Unreleased
+
+### Patch Changes
+
+- disable formatting compiled output
+- move `prettier` into `devDependencies`
+- remove `prettier-plugin-jsdoc`
+
 ## 2.0.0-beta.3
 
 ### Patch Changes

@@ -1,7 +1,6 @@
 import { compileBundle } from "./compileBundle.js";
 import { DEFAULT_REGISTRY } from "./registry.js";
 import { selectBundleNested, type InlangProject } from "@inlang/sdk";
-import * as prettier from "prettier";
 import { lookup } from "../services/lookup.js";
 import { emitDts } from "./emit-dts.js";
 import { generateLocaleModules } from "./output-structure/locale-modules.js";
@@ -117,46 +116,8 @@ export const compileProject = async (args: {
 		}
 	}
 
-	return await formatFiles(output);
-};
-
-async function formatFiles(
-	files: Record<string, string>
-): Promise<Record<string, string>> {
-	const output: Record<string, string> = {};
-	const promises: Promise<void>[] = [];
-
-	for (const [key, value] of Object.entries(files)) {
-		if (!key.endsWith(".js")) {
-			output[key] = value;
-			continue;
-		}
-
-		promises.push(
-			new Promise((resolve, reject) => {
-				fmt(value)
-					.then((formatted) => {
-						output[key] = formatted;
-						resolve();
-					})
-					.catch(reject);
-			})
-		);
-	}
-
-	await Promise.all(promises);
 	return output;
-}
-
-async function fmt(js: string): Promise<string> {
-	return await prettier.format(js, {
-		arrowParens: "always",
-		singleQuote: true,
-		printWidth: 100,
-		parser: "babel",
-		plugins: ["prettier-plugin-jsdoc"],
-	});
-}
+};
 
 export function getFallbackMap<T extends string>(
 	locales: T[],
