@@ -1,0 +1,110 @@
+<%
+
+const { messages, locale, getVariant, patternToHtml } = locals;
+languageStrings = [];
+plurals = [];
+
+function variantToValue(variant) {
+	let value = '';
+	for (const patternPart of variant.pattern) {
+		if (patternPart.type === 'Text') {
+			value += patternPart.value;
+		} else if (patternPart.type === 'VariableReference') {
+			const variableName = patternPart.name;
+			// TODO #19 check the type and use different placeholder
+			// TODO #20 support indexed placeholders instead of just %@ use %1$@ and derive the index if needed
+			value += '{{'+variableName+'}}';
+		}
+	}
+	return value;
+}
+
+// list of characters that need to be escaped when converting from ini to string format
+// '<' // (less than), escaped as &lt;
+// '>' // (greater than), escaped as &gt;
+// '&' // (ampersand), escaped as &amp;
+// "'" // (apostraphe), escaped as &apos;
+// '"' // (quote mark), escaped as &quot;
+
+function mask(value, quoteWrapped) {
+	let stringValue = value;
+	
+	// TODO #8 replace all placeholders - stringValue = stringValue.replace(/%@/g, "%s"); ...
+	stringValue = stringValue.replace(/&/g, "&amp;");
+	if (quoteWrapped) {
+		stringValue = stringValue.replace(/"/g, '\\"');
+	} else {
+		stringValue = stringValue.replace(/'/g, "\\'");
+	}
+	return stringValue
+}
+
+const exportObject = {};
+
+for (const message of messages) { 
+
+	if (message.selectors.length === 0) {
+		// ==========================================
+		// Singular String found (e.g. Language = de)
+		// ==========================================
+		
+		const variant = getVariant(message, { where: { languageTag: locale, match: [] }});
+
+		if (variant === undefined) {
+			continue;
+		}
+		
+		let stringValue = variantToValue(variant);
+		const messageName = message.id;
+
+		stringValue = mask(stringValue, true);
+		
+		const messageGroups = messageName.split('__');
+		let currentSubgroup = exportObject;
+		for (let i = 0; i < messageGroups.length; i++) {
+			if (exportObject[messageGroups[i]] === undefined) {
+				if (messageGroups.length - 1 === i) {
+					currentSubgroup[messageGroups[i]] = stringValue;
+				} else {
+					currentSubgroup = {};
+					exportObject[messageGroups[i]] = currentSubgroup;
+				}
+			}
+		}
+
+	} else {
+		// TODO #18 implement this to support strings with plurals and gender 
+		/*
+		// ==========================================
+		// Plurals! (NO Singular String = assuming plurals)
+		// ==========================================
+		let pluralTranslations = {
+			messageName: messageName,
+			translations: {
+
+			}
+		};
+		console.log(key.translations)
+		console.log(language)
+		console.log(key.translations[language]);
+		for (let plural of Object.keys(key.translations[language])) {
+			console.log(plural)
+			pluralTranslations.translations[plural] = mask(key.translations[language][plural].text, true);
+		}
+		plurals.push(pluralTranslations)
+		*/
+		console.log('Plurals and Gender are not yet supportet for export - ignoring Message '+ messageName +'')
+	}
+
+}
+
+// sort the lists by key
+// languageStrings.sort((a, b) => a.key.localeCompare(b.key));
+//plurals.sort((a, b) => a.key.localeCompare(b.key));
+
+//////////////////////////////////////
+///				  BEGIN TEMPLATE 				 ///
+//////////////////////////////////////
+-%>
+<%-JSON.stringify(exportObject, null, 4); %>
+

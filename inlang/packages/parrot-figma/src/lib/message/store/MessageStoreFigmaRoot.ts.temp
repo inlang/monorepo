@@ -1,0 +1,628 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-await-in-loop */
+
+import TextEncoding from 'text-encoding';
+
+import blake from 'blakejs';
+import { Locale } from '../variants/Locale';
+import { Plural } from '../variants/Plural';
+import {
+  HistoryTag, HistoryEntry, Message, Messages, Fillins, PlaceholderType,
+} from '../Message';
+import { MessageUI } from '../MessageUI';
+import { Gender } from '../variants/Gender';
+
+const encoder = new TextEncoding.TextEncoder();
+
+export interface Config {
+  baseLanguage?: Locale,
+  enabledLanguages?: Locale[]
+}
+
+const defaultStringFillinValue = 'Loren Impsum';
+const defaultDecimalFillinValue = 7;
+const defaultFloatFillinValue = Math.PI;
+
+export class MessageStoreFigmaRoot {
+  public proxyClassName = 'MessageStoreFigmaRoot';
+
+  public static configDataKey = 'prt_c';
+
+  /**
+   * we store a version map here:
+   * [
+   *  { name: 'v-1.0.0', description: '', id: string? },
+   * ]
+   */
+  public static tagsDataKey = 'prt_t';
+
+  /**
+   * Prefix for messageId's
+   * - the head version of a message is stored withing a pluginDataKey of the current document root node
+   * - all messages are strored prefixed with the messagePrefix followed by a slot (for collisions) hashed orignal message name
+   */
+  messagePrefix = 'prt_m__';
+
+  /**
+   * Prefix for message version history. Each change of a message is stored in the messages history array
+   * - all message histories are strored prefixed with the messageHistoryPrefix followed by a slot (for collisions) hashed orignal message name
+   */
+  messageHistoryPrefix = 'prt_mh__';
+
+  // contains a map from messageId to state index from the last cache propagation
+  messageState = { } as {
+    [messageId: string]: number
+  };
+
+  public messageIdToLabels = {} as {
+    [messageId: string]: Set<string>
+  };
+
+  constructor(asProxy: boolean) {
+    if (!asProxy) {
+      figma.on('documentchange', this.forwardDocumentChanges.bind(this));
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  forwardDocumentChanges(event: any) {
+    for (const change of event.documentChanges) {
+      // eslint-disable-next-line default-case
+      switch (change.type) {
+        case 'PROPERTY_CHANGE': {
+          if (change.node.parent === null // easy way to check if the node is the root node
+          && change.properties.indexOf('pluginData') !== -1) {
+            const currentFileStorageKeys = figma.root.getPluginDataKeys().filter((value) => value.indexOf(this.messageHistoryPrefix) === 0);
+            let currentCachedMessageIds = Object.keys(this.messageState);
+
+            const changedKeys = {
+              deleted: [] as string[],
+              updated: [] as string[],
+              added: [] as string[],
+            };
+
+            for (const currentFileStorageKey of currentFileStorageKeys) {
+              const id = currentFileStorageKey.slice(this.messageHistoryPrefix.length);
+
+              if (this.messageState[id] === undefined) {
+                if (JSON.parse(figma.root.getPluginData(currentFileStorageKey)).ref === undefined) {
+                  changedKeys.added.push(id);
+                }
+              } else {
+                if (figma.root.getPluginData(currentFileStorageKey).length !== this.messageState[id]) {
+                  changedKeys.updated.push(id);
+                }
+
+                currentCachedMessageIds = currentCachedMessageIds.filter((messageId) => messageId !== id);
+              }
+            }
+            changedKeys.deleted = currentCachedMessageIds;
+
+            for (const deletedKey of currentCachedMessageIds) {
+              delete this.messageState[deletedKey];
+            }
+
+            if (changedKeys.deleted.length > 0
+              || changedKeys.added.length > 0
+              || changedKeys.updated.length > 0) {
+              figma.ui.postMessage({
+                target: 'TranslationKeyStore',
+                type: 'cacheUpdate',
+                changedKeys,
+              });
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  getConfigSync() {
+    const messageRaw = figma.root.getPluginData(MessageStoreFigmaRoot.configDataKey);
+
+    if (messageRaw === '' || !messageRaw) {
+      return {
+        baseLanguage: undefined,
+        enabledLanguages: undefined,
+      } as Config;
+    }
+
+    return (JSON.parse(messageRaw) as Config);
+  }
+
+  async getConfig() {
+    return this.getConfigSync();
+  }
+
+  async setConfig(languageConfig: Config) {
+    figma.root.setPluginData(MessageStoreFigmaRoot.configDataKey, JSON.stringify(languageConfig));
+  }
+
+  getHistoryTagsSync() {
+    const tagsRaw = figma.root.getPluginData(MessageStoreFigmaRoot.tagsDataKey);
+    let currentTags = [] as HistoryTag[];
+    if (tagsRaw !== '') {
+      currentTags = JSON.parse(tagsRaw) as HistoryTag[];
+    }
+    return currentTags;
+  }
+
+  async getHistoryTags() {
+    return this.getHistoryTagsSync();
+  }
+
+  async createTag(tagId: number, title: string, description: string | undefined) {
+    const currentTags = this.getHistoryTagsSync();
+    if (tagId !== currentTags.length) {
+      throw 'tagging in parallel';
+    }
+
+    currentTags[tagId] = {
+      date: Date.now(),
+      user: figma.currentUser!.id!,
+      title,
+      description,
+    };
+    figma.root.setPluginData(MessageStoreFigmaRoot.tagsDataKey, JSON.stringify(currentTags));
+
+    // add tag to all Messages
+    for (const pluginKeyWithPrefix of figma.root.getPluginDataKeys()) {
+      if (pluginKeyWithPrefix.startsWith(this.messagePrefix)) {
+        const messageData = figma.root.getPluginData(pluginKeyWithPrefix);
+        if (messageData && messageData !== '') {
+          const contentAny = JSON.parse(messageData) as any;
+          if (contentAny.ref !== undefined) {
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+
+          const message = contentAny as Message;
+          if (!message.historyTags) {
+            message.historyTags = [];
+          }
+          if (!message.labels) {
+            message.labels = [];
+          }
+          message.historyTags[tagId] = message.latestVersion;
+          figma.root.setPluginData(pluginKeyWithPrefix, JSON.stringify(message));
+        }
+      }
+    }
+
+    // add version entry in figma file
+    const versionHistoryEntry = await figma.saveVersionHistoryAsync(title, description);
+    currentTags[tagId].versionId = versionHistoryEntry.id;
+    figma.root.setPluginData(MessageStoreFigmaRoot.tagsDataKey, JSON.stringify(currentTags));
+
+    return currentTags[tagId];
+  }
+
+  async getHistory(messageName: string) : Promise<HistoryEntry[]> {
+    return this.getHistorySync(messageName).messageHistory;
+  }
+
+  getHistorySync(messageName: string) {
+    const messageHistoryRaw = figma.root.getPluginData(this.messageHistoryPrefix + messageName);
+    const messageHistory = (messageHistoryRaw !== undefined && messageHistoryRaw !== '' ? JSON.parse(messageHistoryRaw) : []);
+
+    return {
+      messageHistory,
+      state: messageHistoryRaw.length,
+    };
+  }
+
+  getMessageByName(name: string) {
+    let currentBuket = 0;
+    let id = MessageStoreFigmaRoot.createMessageId(name, currentBuket);
+    let message = undefined as Message | undefined;
+
+    while (figma.root.getPluginData(`${this.messagePrefix}${id}`) !== '') {
+      message = this.resolveMessageReference(id, name);
+      if (message !== undefined) {
+        return message;
+      }
+      currentBuket += 1;
+      id = MessageStoreFigmaRoot.createMessageId(name, currentBuket);
+    }
+    return undefined;
+  }
+
+  resolveMessageReference(id: string, name: string): Message | undefined {
+    const referencedMessageRaw = figma.root.getPluginData(`${this.messagePrefix}${id}`);
+    if (referencedMessageRaw === '' || !referencedMessageRaw) {
+      return undefined;
+    }
+    const referencedMessage = JSON.parse(referencedMessageRaw) as any;
+    if (referencedMessage.ref) {
+      return this.resolveMessageReference(referencedMessage.ref, name);
+    }
+    if (referencedMessage.name && referencedMessage.name === name) {
+      return this.getMessage(id);
+    }
+    return undefined;
+  }
+
+  getMessage(id: string): Message | undefined {
+    const messageRaw = figma.root.getPluginData(this.messagePrefix + id);
+
+    if (messageRaw === '' || !messageRaw) {
+      return undefined;
+    }
+
+    const messageContentRaw = JSON.parse(messageRaw) as any;
+
+    if (messageContentRaw.ref !== undefined) {
+      return undefined;
+    }
+
+    const message = messageContentRaw as Message;
+
+    // this is where we add the id from the bucket it was found in
+    message.id = id;
+
+    const defaultFillins = {} as Fillins;
+    const placeholders = message.placeholders ?? {};
+
+    for (const placeholderName of Object.keys(placeholders)) {
+      // if the placeholder does not exist or is flagged as default value, enrich with default value
+      const defaultValue = message.defaultFillins?.[placeholderName]?.default === true;
+      if (defaultValue && message.defaultFillins?.[placeholderName] === undefined) {
+        const placehodlder = message.placeholders[placeholderName];
+        let fillinDefaultValue = defaultStringFillinValue as string | number;
+        if (placehodlder.type === PlaceholderType.float) {
+          fillinDefaultValue = defaultFloatFillinValue;
+        } else if (placehodlder.type === PlaceholderType.integer) {
+          fillinDefaultValue = defaultDecimalFillinValue;
+        }
+        defaultFillins[placeholderName] = { default: true, value: fillinDefaultValue };
+      } else {
+        defaultFillins[placeholderName] = message.defaultFillins?.[placeholderName];
+      }
+    }
+
+    message.defaultFillins = defaultFillins;
+
+    if (!message.historyTags) {
+      message.historyTags = [];
+    }
+    if (!message.labels) {
+      message.labels = [];
+    }
+    const historyObj = this.getHistorySync(id);
+    message.history = historyObj.messageHistory;
+    message.latestVersion = message.history.length - 1;
+    message.referencingTextNodes = this.messageIdToLabels[message.id] ? [...this.messageIdToLabels[message.id]] : [];
+    this.messageState[id] = historyObj.state;
+
+    return message;
+  }
+
+  async getMessageAsync(id: string) {
+    return this.getMessage(id);
+  }
+
+  private async persistKey(messagePased: Message): Promise<Message> {
+    const message = messagePased;
+    const messageCurrentVersion = this.getMessage(message.id);
+
+    let historyEntry: HistoryEntry | undefined;
+    const userId = figma.currentUser?.id ?? 'anonymous';
+    const dateOfChange = Date.now();
+
+    // find differences
+    for (const locale of Object.keys(message.variants)) {
+      const currentLocale = locale as Locale;
+
+      for (const gender of Object.keys(message.variants[currentLocale]!)) {
+        const currentGender = gender as Gender;
+
+        for (const plural of Object.keys(message.variants[currentLocale]![currentGender]!)) {
+          const currentPlural = plural as Plural;
+
+          if (message.variants[currentLocale]![currentGender]![currentPlural]) {
+            message.variants[currentLocale]![currentGender]![currentPlural]!.text = message.variants[currentLocale]![currentGender]![currentPlural]?.text === '' ? undefined : message.variants[currentLocale]![currentGender]![currentPlural]?.text;
+          }
+          if (messageCurrentVersion?.variants[currentLocale]?.[currentGender]?.[currentPlural]?.text === message.variants[currentLocale]![currentGender]![currentPlural]?.text
+                      && messageCurrentVersion?.variants[currentLocale]?.[currentGender]?.[currentPlural]?.skip === message.variants[currentLocale]![currentGender]![currentPlural]?.skip) {
+            // console.log(`text equal! ${currentLanguage} ${currentPlural} ${keyCurrentVersion.messages[currentLanguage]?.[currentPlural]?.text}`);
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+
+          if (!historyEntry) {
+            historyEntry = { user: userId, date: dateOfChange, variants: {} };
+          }
+
+          if (historyEntry.variants![currentLocale] === undefined) {
+            historyEntry.variants![currentLocale] = {
+              [currentGender]: {
+                [currentPlural]: {
+                  text: message.variants[currentLocale]![currentGender]![currentPlural]!.text,
+                  skip: message.variants[currentLocale]![currentGender]![currentPlural]!.skip,
+                },
+              },
+            };
+          } else if (historyEntry.variants![currentLocale]![currentGender]![currentPlural] === undefined) {
+            historyEntry.variants![currentLocale]![currentGender]![currentPlural] = {
+              text: message.variants[currentLocale]![currentGender]![currentPlural]!.text,
+              skip: message.variants[currentLocale]![currentGender]![currentPlural]!.skip,
+            };
+          }
+
+          message.variants[currentLocale]![currentGender]![currentPlural]!.version = message.history.length;
+        }
+      }
+    }
+
+    if (!messageCurrentVersion || message.plural !== messageCurrentVersion?.plural) {
+      if (!historyEntry) {
+        historyEntry = { user: userId, date: dateOfChange };
+      }
+
+      historyEntry.plural = message.plural;
+    }
+
+    if (!messageCurrentVersion || message.gender !== messageCurrentVersion?.gender) {
+      if (!historyEntry) {
+        historyEntry = { user: userId, date: dateOfChange };
+      }
+
+      historyEntry.gender = message.gender;
+    }
+
+    if (!messageCurrentVersion || !MessageStoreFigmaRoot.arraysAreEqual(message.labels, messageCurrentVersion.labels)) {
+      if (!historyEntry) {
+        historyEntry = { user: userId, date: dateOfChange };
+      }
+
+      historyEntry.labels = message.labels;
+    }
+
+    let createMessageNameRef = undefined as string | undefined;
+
+    if (messageCurrentVersion && messageCurrentVersion.name !== message.name) {
+      const existingKeyWithName = this.getMessageByName(message.name);
+      if (existingKeyWithName && existingKeyWithName.id !== message.id) {
+        throw new Error(`Key with name ${message.name} exists already.`);
+      }
+
+      if (existingKeyWithName === undefined) {
+        createMessageNameRef = message.name;
+      }
+
+      if (!historyEntry) {
+        historyEntry = { user: userId, date: dateOfChange };
+      }
+
+      historyEntry.name = message.name;
+    }
+
+    if (!historyEntry) {
+      // no differences found!
+      return message;
+    }
+
+    message.latestVersion = message.history.length;
+
+    message.history.push(historyEntry);
+
+    if (message.name === undefined) {
+      throw new Error('Message`s name must be defined ');
+    }
+
+    const serializableTranslationKey = message as any;
+    const { history } = serializableTranslationKey;
+    delete serializableTranslationKey.history;
+    const messageId = message.id;
+    delete serializableTranslationKey.id;
+
+    figma.root.setPluginData(this.messagePrefix + messageId, JSON.stringify(serializableTranslationKey));
+    figma.root.setPluginData(this.messageHistoryPrefix + messageId, JSON.stringify(history));
+
+    if (createMessageNameRef !== undefined) {
+      // we don't have a reference that acutally points to the name create a new one in the next free bucket.
+      // NOTE: we can't reuse buckets that no longer point the the correct message since labels eventually still use the reference...
+      const unusedId = this.findUnusedId(message.name);
+      figma.root.setPluginData(this.messagePrefix + unusedId, JSON.stringify({ ref: messageId }));
+    }
+
+    // storage idea:
+    // Use KEYNAME as initial Message id and store the data in arr_k_MESSAGENAME
+    // on rename to NEW_MESSAGENAME keep MESSAGENAME as Message Id - since labels referencing to it already and we want to keep the history
+    // But: Store a "reference" entity within arr_k_NEW_MESSAGENAME this allows us to detect collision on message names without checking all message for id collision
+    // If the place arr_k_NEW_MESSAGENAME is taken we potentially have a conflict:
+    // - check what is stored within arr_k_NEW_MESSAGENAME.
+    //   - if it is a message - check the current message name - if it is != arr_k_NEW_MESSAGENAME the message has been renamed in the meantime - no collision on this enitity
+    //   - if it is a reference: - resolve the reference and check its  current message name - if it is != arr_k_NEW_MESSAGENAME the message has been renamed in the meantime - no collision on this enitity
+    //      - check what is stored within arr_k_NEW_MESSAGENAME_1
+    //   - else we have a conflict
+
+    // TODO #8 handle history for placeholder, fillins and quantity!
+    // TODO key history: pause event event handling using a flag;
+
+    message.history = history;
+    message.id = messageId;
+    return message;
+  }
+
+  private static arraysAreEqual(arr1: string[], arr2: string[]) {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < arr1.length; i++) {
+      if (!arr2.includes(arr1[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async createMessage(name: string, variants: { locale: Locale; gender: Gender, plural: Plural; text: string | undefined; skip: boolean }[], gender: boolean, plural: boolean, quantity?: { value: number } | { placeholder: string }, defaultFillins?: Fillins): Promise<Message> {
+    const existingKey = this.getMessageByName(name);
+    if (existingKey) {
+      throw Error('tried to create a Message that already existed');
+    }
+
+    const messagesObj = {} as any;
+    for (const variant of variants) {
+      if (!messagesObj[variant.locale]) {
+        messagesObj[variant.locale] = {};
+      }
+
+      if (!messagesObj[variant.locale][variant.gender]) {
+        messagesObj[variant.locale][variant.gender] = {};
+      }
+
+      if (!messagesObj[variant.locale][variant.gender][variant.plural]) {
+        messagesObj[variant.locale][variant.gender][variant.plural] = {};
+      }
+
+      messagesObj[variant.locale][variant.gender][variant.plural].text = variant.text;
+    }
+
+    const placeholders = MessageUI.extractParameters(messagesObj, this.getConfigSync().baseLanguage!, gender, plural);
+
+    const unusedId = this.findUnusedId(name);
+    const createdKey = {
+      id: unusedId,
+      latestVersion: 0,
+      name,
+      labels: [],
+      gender,
+      plural,
+      variants: messagesObj,
+      referencingTextNodes: this.messageIdToLabels[name] ? [...this.messageIdToLabels[name]] : [],
+      placeholders,
+      quantity,
+      defaultFillins,
+      history: [], // first history entry will be added in persistKey method...
+      historyTags: [],
+    } as Message;
+    return this.persistKey(createdKey);
+  }
+
+  async updateMessage(id: string, properties: {
+    name?: string,
+    variants: { locale: Locale; plural: Plural; gender: Gender, text: string | undefined; skip: boolean }[],
+    gender?: boolean,
+    plural?: boolean,
+    quantity?: { value: number } | { placeholder: string },
+    fillins?: Fillins
+  }): Promise<Message> {
+    // NOTE: this call will lead to a deep clone of the message - we can savely update it!
+    
+    const messageToUpdate = this.getMessage(id);
+    let changeFound = false;
+
+    if (messageToUpdate === undefined) {
+      throw new Error(`Key [${id}] not found!`);
+    }
+
+    for (const variant of properties.variants) {
+      // if no variant for the given language exists - create an empty one for gender 'neutral' and plural 'other' with version -1
+      if (!messageToUpdate.variants[variant.locale]) {
+        messageToUpdate.variants[variant.locale] = {
+          n: {
+            other: {
+              version: -1,
+              skip: false,
+              verified: false, // TODO #9 - check if false is correct
+            },
+          },
+        };
+      }
+
+      // if the target gender does not extist yet create a dummy one - values get overriden in next step
+      if (!messageToUpdate.variants[variant.locale]![variant.gender]) {
+        messageToUpdate.variants[variant.locale]![variant.gender] = {
+          other: {
+            version: -1,
+            skip: false,
+            verified: false, // TODO #9 - check if false is correct
+          },
+        };
+      }
+
+      // if the target plural does not extist yet create a dummy one - values get overriden in next step
+      if (!messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]) {
+        messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural] = {
+          version: -1,
+          skip: false,
+          verified: false, // TODO #9 - check if false is correct
+        };
+      }
+
+      // create a new variant entry with increased version
+      if (messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]!.text !== variant.text
+        || messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]!.skip !== variant.skip) {
+        changeFound = true;
+        messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]!.version = messageToUpdate.latestVersion + 1;
+        messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]!.text = variant.text;
+        messageToUpdate.variants[variant.locale]![variant.gender]![variant.plural]!.skip = variant.skip;
+      }
+    }
+
+    if (properties.plural !== undefined && properties.plural !== null && messageToUpdate.plural !== properties.plural) {
+      changeFound = true;
+      messageToUpdate.plural = properties.plural;
+    }
+
+    const placeholders = MessageUI.extractParameters(messageToUpdate.variants, this.getConfigSync().baseLanguage!, messageToUpdate.gender, messageToUpdate.plural);
+
+    if (JSON.stringify(messageToUpdate.placeholders) !== JSON.stringify(placeholders)) {
+      changeFound = true;
+      messageToUpdate.placeholders = placeholders;
+    }
+
+    if (properties.quantity !== undefined && properties.quantity !== null && JSON.stringify(messageToUpdate.quantity) !== JSON.stringify(properties.quantity)) {
+      changeFound = true;
+      messageToUpdate.quantity = properties.quantity;
+    }
+
+
+    
+    if (properties.fillins !== undefined) {
+       for (let [fillinName, fillinValue] of Object.entries(properties.fillins)) {
+        if (fillinValue.default && messageToUpdate.defaultFillins[fillinName]?.value !== fillinValue.value) {
+          changeFound = true;
+          messageToUpdate.defaultFillins[fillinName]= fillinValue;
+        }
+       }
+    }
+
+    if (properties.name !== undefined && messageToUpdate.name !== properties.name) {
+      changeFound = true;
+      messageToUpdate.name = properties.name;
+    }
+
+    if (!changeFound) {
+      return messageToUpdate;
+    }
+    return this.persistKey(messageToUpdate);
+  }
+
+  async deleteMessage(id: string): Promise<void> {
+    figma.root.setPluginData(this.messagePrefix + id, '');
+    figma.root.setPluginData(this.messageHistoryPrefix + id, '');
+  }
+
+  async load(): Promise<Messages> {
+    const messages = {} as Messages;
+    for (const messageWithPrefix of figma.root.getPluginDataKeys()) {
+      if (messageWithPrefix.startsWith(this.messagePrefix)) {
+        const messageId = messageWithPrefix.substring(this.messagePrefix.length, messageWithPrefix.length);
+        const message = this.getMessage(messageId);
+        if (message !== undefined) {
+          messages[messageId] = message;
+        }
+      }
+    }
+    return messages;
+  }
+
+  async commitUndo() {
+    return figma.commitUndo();
+  }
+}

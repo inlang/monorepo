@@ -1,0 +1,20 @@
+New Export Feature - i18next Key Export:
+
+Intoduces new export foramt you can now export your messages for i18next.
+
+Translation keys are now Messages: 
+
+In previous versions we used the term "Translations" or "Keys" to describe localized Strings.
+The ICU terminology that express the meaning way better.
+
+The "Keys" Tab is now called "Messages".
+A Message is not referencd by its key but by its name.
+Translations are now (locale) variants of a message.
+
+Database schema updated: 
+
+This release updates parrots underlying data structure. 
+Design files that have been used with previous versions of parrot 
+get automatically migrated to the new structure on the first run. 
+
+This Schema change reflects the updated namings and prepares support upcomming features.

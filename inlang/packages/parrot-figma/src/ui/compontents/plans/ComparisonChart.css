@@ -1,0 +1,175 @@
+.comparison_chart--table {
+	margin: 8px 0 12px;
+	border: 1px solid var(--figma-color-border);
+	border-collapse: collapse;
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.comparison_chart--table col {
+	border: 1px solid var(--figma-color-border);
+}
+
+.comparison_chart--table tr {
+	border: 1px solid var(--figma-color-border);
+}
+
+.comparison_chart--featureContainer {
+	width: 196px;
+	padding: 8px;
+}
+
+.comparison_chart--planInformationContainer {
+	width: 208px;
+	padding: 24px 24px 12px;
+	text-align: left;
+}
+
+.comparison_chart--planInformationContainer {
+	width: 208px;
+	padding: 24px 24px 12px;
+	text-align: left;
+}
+
+.comparison_chart--highlighted {
+	background-color: var(--figma-color-bg-selected-tertiary);
+	border: 1px solid var(--figma-color-border-onselected);
+}
+
+.plan_information--headerContainer {
+	min-height: 64px;
+}
+
+.plan_information--name {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: calc(-0.011px + var(--figma-text-tracking-pos, 0) * 16px);
+}
+
+.plan_information--description {
+	margin-top: 8px;
+	margin-bottom: 0px;
+	color: var(--figma-color-text-secondary);
+}
+
+.helper_div {
+	box-sizing: border-box;
+	width: 100%;
+	height: 0px;
+	min-height: 0px;
+	background-color: transparent;
+	display: flex;
+	flex-direction: row;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+	-webkit-box-align: center;
+	align-items: center;
+}
+
+.plan_information--priceContainer {
+	min-height: 56px;
+	margin: 24px 0;
+}
+
+.plan_information--priceRow {
+	margin-top: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: inherit;
+	outline: none;
+	letter-spacing: inherit;
+	text-decoration: none;
+	cursor: inherit;
+}
+
+.plan_information--priceRowProductName {
+	margin: 0px;
+	font-weight: 500;
+	color: var(--figma-color-text);
+	font-size: 11px;
+	line-height: 16px;
+	letter-spacing: calc(0.005px + var(--figma-text-tracking-pos, 0) * 11px);
+	font-family: Inter, sans-serif;
+}
+
+.plan_information--priceRowPrice {
+	font-weight: 600;
+	color: var(--figma-color-text);
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: calc(-0.011px + var(--figma-text-tracking-pos, 0) * 16px);
+	font-family: Inter, sans-serif;
+}
+
+.plan_information--button {
+	max-width: none;
+	width: 100%;
+	color: var(--figma-color-text-onbrand, #fff);
+	background-color: var(--figma-color-bg-brand);
+	border-color: transparent;
+	background-clip: border-box;
+	font-weight: 500;
+	display: block;
+	text-align: center;
+	flex-shrink: 0;
+	height: 32px;
+	line-height: 30px;
+	padding: 0 11px;
+	box-sizing: border-box;
+	border-radius: 6px;
+	cursor: default;
+	user-select: none;
+	border: 1px solid var(--figma-color-bg-brand, rgba(0, 0, 0, 0.8));
+}
+
+.plan_information--additionalInformation {
+	margin-top: 8px;
+	min-height: 16px;
+	text-align: center;
+}
+
+.comparison_chart--featureContainer {
+	width: 196px;
+	padding: 8px;
+}
+
+.comparison_chart--planFeature {
+	padding: 8px 20px;
+}
+
+.comparison_chart--planFeature--highlighted {
+	background-color: var(--figma-color-bg-selected-tertiary);
+	border: 1px solid var(--figma-color-border-onselected);
+}
+
+.plan_information--disabledButton {
+	height: 32px;
+	background-color: var(--figma-color-bg-disabled);
+	background-clip: border-box;
+	border-color: transparent;
+	border-radius: 6px;
+	font-weight: 500;
+	color: var(--figma-color-text);
+	line-height: 30px;
+	text-align: center;
+}
+
+.plan_information--mostPopular {
+	margin-left: 8px;
+	font-weight: 500;
+	font-size: 11px;
+	color: var(--figma-color-text-brand);
+}

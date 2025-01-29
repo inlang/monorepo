@@ -1,0 +1,66 @@
+<%
+
+
+function variantToValue(variant) {
+	let value = '';
+	for (const patternPart of variant.pattern) {
+		if (patternPart.type === 'Text') {
+			value += patternPart.value;
+		} else if (patternPart.type === 'VariableReference') {
+			const variableName = patternPart.name;
+			// TODO #19 check the type and use different placeholder
+			// TODO #20 support indexed placeholders instead of just %@ use %1$@ and derive the index if needed
+			value += '%@';
+		}
+	}
+	return value;
+}
+
+// create data array
+languageStrings = [];
+
+for (const message of messages) { 
+
+	if (message.selectors.length === 0) {
+		// ==========================================
+		// Singular String found (e.g. Language = de)
+		// ==========================================
+
+		const variant = getVariant(message, { where: { languageTag: locale, match: [] }});
+
+		if (variant === undefined) {
+			continue;
+		}
+		
+		let stringValue = variantToValue(variant);
+		// escape special characters
+		stringValue = stringValue.replace(/"/g, '\\"');
+
+		const messageName = message.id;
+
+		// creates an item with only the essential data to be serialized/printed
+		languageElement = {};
+		languageElement.name = messageName;
+		languageElement.value = stringValue;
+		// languageElement.comment = translations.comment;
+		languageStrings.push(languageElement);
+	} else  {
+		// TODO #18 implement selectors
+		throw new Error('Plurals and Gender are not yet supportet for export - ignoring Message '+ messageName +'')
+	}
+
+}
+
+// sort it
+languageStrings.sort((a, b) => a.name.localeCompare(b.name));
+
+/// BEGIN TEMPLATE
+-%>
+/**
+ * Apple Strings File
+ * Language: <%-locale%>
+ */
+
+ <%_ for (let i = 0; i < languageStrings.length; i++) { _%>
+ "<%-languageStrings[i].name%>" = "<%-languageStrings[i].value%>";
+ <%_ } _%>

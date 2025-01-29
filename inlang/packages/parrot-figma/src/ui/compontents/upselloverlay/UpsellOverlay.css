@@ -1,0 +1,49 @@
+.upsell-overlay-container-hidden {
+	display: none;
+}
+
+.upsell-overlay-container {
+	position: fixed;
+	right: 8px;
+	bottom: 16px;
+	z-index: 100;
+	background-color: var(--figma-color-bg-secondary);
+	border-radius: 4px 4px 6px 6px;
+}
+
+.upsell-overlay-container-progressBar {
+	width: 100%;
+
+	border-radius: 4px 4px 0 0;
+	height: 4px;
+}
+
+.upsell-overlay-container-progressBar-percentage {
+	width: 100%;
+	border-radius: 4px 2px 2px 0;
+	height: 100%;
+}
+
+.upsell-overlay-container-progressBa-percentage.info {
+	background-color: var(--figma-color-bg-selected-strong);
+}
+
+.upsell-overlay-container-progressBar-percentage.warning {
+	background-color: var(--figma-color-bg-warning-secondary);
+}
+
+.upsell-overlay-container-progressBar-percentage.error {
+	background-color: var(--figma-color-bg-danger-secondary);
+}
+
+.upsell-overlay-upsellText {
+	padding: 12px 16px 16px;
+	word-break: break-word;
+}
+
+.upsell-overlay-upsellText a {
+	color: var(--figma-color-text-brand);
+	cursor: pointer;
+	-webkit-user-select: auto;
+	user-select: auto;
+}

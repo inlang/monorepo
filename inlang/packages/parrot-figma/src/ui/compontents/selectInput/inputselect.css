@@ -1,0 +1,531 @@
+:root {
+	--figma-color-bg-menu-hover: #2c2c2c;
+	--figma-color-bg-menu-pressed: #2c2c2c;
+	--figma-color-bg-menu-secondary: #383838;
+	--figma-color-bg-menu-selected: #0d99ff;
+	--figma-color-bg-menu-selected-hover: #007be5;
+	--figma-color-bg-menu-selected-pressed: #007be5;
+	--figma-color-bg-menu-selected-secondary: #394360;
+	--figma-color-bg-menu-selected-tertiary: #394360;
+	--figma-color-bg-menu-tertiary: #444444;
+
+	--color-icon-menu: rgba(255, 255, 255, 1);
+	--color-icon-menu-danger: #f24822;
+	--color-icon-menu-disabled: rgba(255, 255, 255, 0.4);
+	--color-icon-menu-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-ondisabled: #1e1e1e;
+	--color-icon-menu-onselected: rgba(255, 255, 255, 1);
+	--color-icon-menu-pressed: #0d99ff;
+	--color-icon-menu-secondary: rgba(255, 255, 255, 0.7);
+	--color-icon-menu-secondary-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-selected: #80caff;
+	--color-icon-menu-selected-secondary: #80caff;
+	--color-icon-menu-selected-tertiary: #80caff;
+	--color-icon-menu-tertiary: rgba(255, 255, 255, 0.4);
+	--color-icon-menu-tertiary-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-warning: #ffcd29;
+
+	--color-text-menu: rgba(255, 255, 255, 1);
+	--color-text-menu-danger: #ffafa3;
+	--color-text-menu-disabled: rgba(255, 255, 255, 0.4);
+	--color-text-menu-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-ondisabled: #1e1e1e;
+	--color-text-menu-onselected: rgba(255, 255, 255, 1);
+	--color-text-menu-secondary: rgba(255, 255, 255, 0.7);
+	--color-text-menu-secondary-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-selected: #80caff;
+	--color-text-menu-selected-secondary: #80caff;
+	--color-text-menu-selected-tertiary: #80caff;
+	--color-text-menu-tertiary: rgba(255, 255, 255, 0.4);
+	--color-text-menu-tertiary-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-warning: #ffd966;
+
+	--color-border-menu: #383838;
+
+	/* TYPOGRAPHY */
+	/* Pos = positive applications (black on white) */
+	/* Neg = negative applications (white on black) */
+	/* Font stack */
+	--font-stack: "Inter", sans-serif;
+	/* Font sizes */
+	--font-size-xsmall: 11px;
+	--font-size-small: 12px;
+	--font-size-large: 13px;
+	--font-size-xlarge: 14px;
+	/* Font weights */
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-bold: 600;
+	/* Lineheight */
+	--font-line-height: 16px;
+	/* Use For xsmall, small font sizes */
+	--font-line-height-large: 24px;
+	/* Use For large, xlarge font sizes */
+	/* Letterspacing */
+	--font-letter-spacing-pos-xsmall: 0.005em;
+	--font-letter-spacing-neg-xsmall: 0.01em;
+	--font-letter-spacing-pos-small: 0;
+	--font-letter-spacing-neg-small: 0.005em;
+	--font-letter-spacing-pos-large: -0.0025em;
+	--font-letter-spacing-neg-large: 0.0025em;
+	--font-letter-spacing-pos-xlarge: -0.001em;
+	--font-letter-spacing-neg-xlarge: -0.001em;
+	/* BORDER RADIUS */
+	--border-radius-small: 2px;
+	--border-radius-med: 5px;
+	--border-radius-large: 6px;
+	/* SHADOWS */
+	--shadow-hud: 0 5px 17px rgba(0, 0, 0, 0.2), 0 2px 7px rgba(0, 0, 0, 0.15);
+	--shadow-floating-window: 0 2px 14px rgba(0, 0, 0, 0.15);
+	/* SPACING + SIZING */
+	--size-xxxsmall: 4px;
+	--size-xxsmall: 8px;
+	--size-xsmall: 16px;
+	--size-small: 24px;
+	--size-medium: 32px;
+	--size-large: 40px;
+	--size-xlarge: 48px;
+	--size-xxlarge: 64px;
+	--size-xxxlarge: 80px;
+}
+
+select.input-select-menu {
+	display: none;
+}
+
+.input-select-menu {
+	position: relative;
+}
+
+.input-select-menu__button.placeholder {
+	color: var(--figma-color-text-disabled);
+}
+
+.input-select-menu__button {
+	display: flex;
+	align-items: center;
+	border: 1px solid transparent;
+	height: 30px;
+	width: 100%;
+	margin: 1px 0 1px 0;
+	padding: 3px;
+	overflow-y: hidden;
+	border-radius: var(--border-radius-small);
+	background-color: transparent;
+}
+
+.input-select-menu__button:hover {
+	border-color: var(--figma-color-border);
+}
+
+.input-select-menu__button:focus {
+	border: 1px solid var(--figma-color-border);
+	outline: 1px solid var(--figma-color-border);
+	outline-offset: -2px;
+}
+
+.input-select-menu__button:disabled:hover {
+	border-color: transparent;
+	background-color: transparent;
+}
+
+.input-select-menu__button:disabled {
+	border-color: transparent;
+	background-color: transparent;
+}
+
+.input-select-menu__button * {
+	pointer-events: none;
+}
+
+.input-select-menu__button:hover .input-select-menu__caret {
+	background-color: var(--figma-color-text-tertiary-hover);
+}
+
+.input-select-menu__button:hover .input-select-menu__label--placeholder {
+	color: var(--black8);
+}
+
+.input-select-menu__button:focus .input-select-menu__label--placeholder {
+	color: var(--black8);
+}
+
+.input-select-menu__button:disabled:hover .input-select-menu__label--placeholder {
+	color: var(--black3);
+}
+
+.input-select-menu__button:hover .input-select-menu__caret,
+.input-select-menu__button:focus .input-select-menu__caret {
+	background-color: var(--figma-color-text-tertiary-hover);
+
+	margin-left: auto;
+}
+
+.input-select-menu__button:disabled:hover .input-select-menu__caret {
+	margin-left: unset;
+}
+
+.input-select-menu__caret {
+	margin-right: 8px;
+}
+
+.input-select-menu__button:disabled .input-select-menu__caret {
+	background-color: var(--figma-color-text-disabled);
+}
+
+.input-select-menu__button:disabled .input-select-menu__label {
+	color: var(--black3);
+}
+
+.input-select-menu__label.input-select-menu__label-part1 {
+	margin-right: 4px;
+}
+
+.input-select-menu__label.input-select-menu__label-part2 {
+	overflow-x: visible;
+}
+
+.input-select-menu__label {
+	font-size: var(--font-size-xsmall);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-xsmall);
+	line-height: var(--line-height);
+	color: var(--figma-color-text);
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	direction: rtl;
+}
+
+.placeholder .input-select-menu__label {
+	color: var(--figma-color-text-disabled);
+	direction: unset;
+}
+
+.input-select-menu__label--placeholder {
+	color: var(--figma-color-text-tertiary);
+}
+
+.input-select-menu__caret {
+	width: 28px;
+	height: 30px;
+	display: block;
+	margin-top: -1px;
+}
+
+.input-select-menu .icon {
+	margin-left: -8px;
+	margin-top: -2px;
+	margin-right: 0;
+	opacity: 0.3;
+}
+
+.input-select-menu__menu {
+	display: none;
+	/* position will be calculated by the component
+  top: 0;
+  left: 0;
+  */
+	background-color: var(--figma-color-bg);
+	padding: var(--size-xxsmall) 0 var(--size-xxsmall) 0;
+	margin: 0;
+
+	overflow-x: overlay;
+	overflow-y: auto;
+}
+
+.input-select-menu__menu--active {
+	display: block;
+}
+
+.input-select-menu__menu::-webkit-scrollbar {
+	width: 12px;
+	background-color: transparent;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
+	background-repeat: repeat;
+	background-size: 100% auto;
+}
+
+.input-select-menu__menu::-webkit-scrollbar-track {
+	border: solid 3px transparent;
+	box-shadow: inset 0 0 10px 10px transparent;
+}
+
+.input-select-menu__menu::-webkit-scrollbar-thumb {
+	border: solid 3px transparent;
+	border-radius: 6px;
+	box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
+}
+
+.input-select-menu__item {
+	align-items: center;
+	color: var(--figma-color-text);
+	cursor: default;
+	display: flex;
+	font-family: var(--font-stack);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-xsmall);
+	line-height: var(--font-line-height);
+	height: var(--size-small);
+	padding: 0px 0px 0px 8px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}
+
+.input-select-menu__item--selected .input-select-menu__item-selected-checkmark {
+	opacity: 1;
+}
+
+.input-select-menu__item-check {
+	width: 18px;
+	padding-left: 8px;
+	padding-right: 6px;
+	flex-shrink: 0;
+}
+
+.input-select-menu__item-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.input-select-menu__item-label {
+	overflow-x: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	padding-right: 16px;
+}
+
+.input-select-menu__item-icon .svg-container {
+	width: 24px;
+	height: 24px;
+}
+
+.input-select-menu__item-check .svg-container.menu-checkmark-svg {
+	width: 10px;
+	height: 10px;
+	background-color: var(--figma-color-text);
+}
+
+.input-select-menu__item--highlighted {
+	background-color: var(--figma-color-bg-selected);
+}
+
+.input-select-menu__divider-label {
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-small);
+	line-height: var(--line-height);
+	display: flex;
+	align-items: center;
+	height: var(--size-small);
+	padding: 0 16px 0 16px;
+	color: var(--figma-color-text-disabled);
+	margin-top: 0;
+}
+
+.input-select-menu__divider {
+	background-color: var(--figma-color-border);
+	display: block;
+	height: 1px;
+	margin: 8px 0 7px 0;
+}
+
+.input-select-menu__menu_container {
+	height: 30px;
+	position: relative;
+	/*
+  gets calculated
+  width: 100px;
+  height: 100px;
+  top: 10px;
+  left: 20px;
+  */
+}
+
+.input-select-menu__menu_wrapper::-webkit-scrollbar {
+	display: none;
+}
+
+.input-select-menu__menu_wrapper {
+	height: 100%;
+	width: 100%;
+	overflow: scroll;
+	position: relative;
+
+	/*
+  gets calculated
+  width: 100px;
+  height: 100px;
+  top: 10px;
+  left: 20px;
+  */
+	z-index: 1000000;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.input-select-menu__menu-scroll-up {
+	background-color: var(--figma-color-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000001;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 16px;
+	width: 100%;
+}
+
+.input-select-menu .input-select-menu__menu-scroll-up > .svg-container {
+	background-color: var(--figma-color-text);
+	width: 8px;
+	height: 8px;
+}
+
+.input-select-menu__menu-scroll-down {
+	background-color: var(--figma-color-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	z-index: 1000001;
+	bottom: 0px;
+	left: 0px;
+	height: 16px;
+	width: 100%;
+}
+
+.input-select-menu .input-select-menu__menu-scroll-down > .svg-container {
+	background-color: var(--figma-color-text);
+	width: 8px;
+	height: 8px;
+}
+
+.input-select-menu__input.input-select-menu__menu--active {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	position: relative;
+	display: flex;
+	flex: 0 0;
+	min-width: 150px;
+
+	border-bottom: solid var(--figma-color-border);
+}
+
+.input-select-menu__input {
+	display: none;
+}
+
+.input-select-menu__input__wrapper {
+	width: 100%;
+	min-height: 14px;
+	margin: 0px;
+	display: flex;
+	flex: 0 0;
+	min-width: 150px;
+}
+
+.input-select-menu__input__wrapper p {
+	width: 100%;
+	min-height: 14px;
+	margin: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	display: inherit;
+	/* background-color: var(--figma-color-bg); */
+	border-radius: 2px;
+	border-style: solid;
+	/* border-color: var(--figma-color-border-selected-strong); */
+	color: var(--figma-color-text-disabled);
+}
+
+.input-select-menu__input__wrapper p.addVisible {
+	padding-right: 37px;
+}
+
+@-moz-document url-prefix() {
+	/* Apply the styles only in Firefox */
+	.input-select-menu__input__wrapper input {
+		padding-left: 8px !important;
+		padding-top: 8px !important;
+	}
+}
+
+.input-select-menu__input__wrapper input {
+	position: absolute;
+	padding-left: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 100%;
+	border: none;
+	outline: none;
+	outline-offset: -2px;
+	resize: none;
+	color: var(--figma-color-text);
+	background-color: transparent;
+	font-family: "Inter", sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 11px;
+	line-height: 14px;
+	letter-spacing: 0.01em;
+}
+
+.input-select-menu__item_add {
+	/* background-color: #007be5; */
+}
+
+.input-select-menu-add {
+	background-color: transparent;
+	border-color: transparent;
+	position: absolute;
+	top: -0.5px;
+	right: -1px;
+	padding: 10px;
+	bottom: -1.3px;
+	border-radius: 0px 2px 0px 0px;
+	border-width: 1px 1px 1px 0px;
+	border-style: solid;
+}
+
+.input-select-menu-add .svg-container {
+	color: var(--figma-color-text);
+}
+
+.input-select-menu-add .svg-container {
+	width: 11px;
+	height: 11px;
+}
+
+.input-select-menu-add.on-primary {
+	background-color: var(--figma-color-bg-selected-strong);
+	border-color: var(--figma-color-border-selected-strong);
+}
+
+.input-select-menu-add.on-primary .svg-container {
+	background-color: var(--figma-color-icon-onselected-strong);
+}
+
+.input-select-editoverlay {
+	display: none;
+}
+
+.input-select-editoverlay.input-select-menu__menu--active {
+	position: fixed;
+	display: flex;
+	background-color: var(--figma-color-bg);
+	z-index: 100000;
+	border-radius: var(--border-radius-small);
+	box-shadow: var(--shadow-hud);
+
+	border: solid var(--figma-color-border);
+}

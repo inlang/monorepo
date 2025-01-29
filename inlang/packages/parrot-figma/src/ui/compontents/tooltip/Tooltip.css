@@ -1,0 +1,58 @@
+.tooltip--notInteractiv {
+	pointer-events: none;
+}
+
+.tooltip--notInteractive {
+	pointer-events: none;
+}
+
+.tooltip--arrow {
+	position: fixed;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-color: transparent;
+	border-width: 6px;
+	z-index: 400;
+}
+
+.tooltip--arrowInset {
+	border-width: 7px;
+	margin: 0 -1px;
+}
+
+.tooltip--upArrow {
+	transform: translate(-50%, 0);
+	border-top: none;
+	border-bottom-color: var(--color-bg-tooltip, #050505);
+}
+
+.tooltip--downArrow {
+	transform: translate(-50%, 0);
+	border-top-color: var(--color-bg-tooltip, #050505);
+	border-bottom: none;
+	margin: 26px -1px;
+}
+
+.tooltip--content {
+	position: fixed;
+	margin-top: 6px;
+	padding: 6px 8px;
+	transform: translate(-50%, 0);
+	background: var(--color-bg-tooltip, #050505);
+	color: var(--color-text-tooltip, white);
+	z-index: 400;
+	border-radius: 2px;
+	white-space: nowrap;
+	box-shadow: var(--elevation-300-tooltip, 0 2px 7px rgba(0, 0, 0, 0.15));
+}
+
+.tooltip--content-down {
+	margin-bottom: 6px;
+	margin-top: 0px;
+}
+
+.tooltip--text {
+	display: inline-block;
+	text-align: center;
+}

@@ -1,0 +1,185 @@
+<html>
+	<header>
+		<style>
+			:root {
+				--figma-color-bg-selected: #e5f4ff;
+				--figma-color-border-selected: #0d99ff;
+				--figma-color-bg: rgba(255, 255, 255, 1);
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: [selector] min-content [height-helper] min-content [key] min-content [language] min-content [plural] min-content [translation] auto [actions] min-content;
+				grid-template-rows: auto;
+			}
+
+			.row {
+				display: contents;
+			}
+
+			.group {
+				display: contents;
+			}
+
+			.row-key .column {
+				background: var(--figma-color-bg);
+				border-style: solid;
+				border-color: transparent;
+				border-right-width: 0px;
+				border-bottom-width: 0px;
+				border-top-width: 0px;
+				border-left-width: 0px;
+			}
+
+			.row-key:hover .column {
+				background: var(--figma-color-bg);
+				border-style: solid;
+				border-color: var(--figma-color-border-selected);
+				border-right-width: 0px;
+				border-bottom-width: 0px;
+				border-top-width: 0px;
+				border-left-width: 0px;
+			}
+
+			.row-key.row-key.selected .column {
+				background: var(--figma-color-bg-selected) !important;
+				border-style: solid;
+				border-color: transparent !important;
+			}
+
+			.column-key {
+				grid-column-start: key;
+				grid-row-end: span 1000;
+				/* grid-row: 1 / span 2; /* Set the row span to take 2 rows */
+			}
+
+			.column-language {
+				grid-column-start: language;
+				grid-row-end: span 100;
+			}
+
+			.column-plural {
+				grid-column-start: plural;
+			}
+
+			.row-key > div.column-key {
+				border-left-width: 1px !important;
+			}
+
+			.row-key > div:nth-child(1 of .column-key),
+			.row-key > div:nth-child(1 of .language-group) > .column-language,
+			.row-key > div:nth-child(1 of .language-group) > div:nth-child(1 of .plural-group) > div {
+				border-top-width: 1px;
+			}
+
+			.row-key > .language-group > .plural-group > .column-actions {
+				border-right-width: 1px !important;
+			}
+
+			.row-key > div:nth-last-child(1 of .column-key),
+			.row-key > div:nth-last-child(1 of .language-group) > .column-language,
+			.row-key
+				> div:nth-last-child(1 of .language-group)
+				> div:nth-last-child(1 of .plural-group)
+				> div {
+				border-bottom-width: 1px;
+			}
+
+			.column-translation {
+				grid-column-start: translation;
+			}
+
+			.column-actions {
+				grid-column-start: actions;
+			}
+		</style>
+	</header>
+
+	<body>
+		<div class="grid">
+			<div class="row row-key selected">
+				<div class="column column-key">key1</div>
+				<div class="group language-group">
+					<div class="column column-language">
+						<div>de</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">other</div>
+						<div class="column column-translation">Hallo Welt</div>
+						<div class="column column-actions">a b c</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">one</div>
+						<div class="column column-translation">Hello Worlsd</div>
+						<div class="column column-actions">avc</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">many</div>
+						<div class="column column-translation" asdasd></div>
+						<div class="column column-actions">asdasd</div>
+					</div>
+				</div>
+				<div class="group language-group">
+					<div class="column column-language">en</div>
+					<div class="group plural-group">
+						<div class="column column-plural">other</div>
+						<div class="column column-translation">Hallo Welt</div>
+						<div class="column column-actions">a b c</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">one</div>
+						<div class="column column-translation">Hello Worlsd</div>
+						<div class="column column-actions">avc</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">many</div>
+						<div class="column column-translation" asdasd></div>
+						<div class="column column-actions">asdasd</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row row-key">
+				<div class="column column-key">key1</div>
+				<div class="group language-group">
+					<div class="column column-language">
+						<div>de</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">other</div>
+						<div class="column column-translation">Hallo Welt</div>
+						<div class="column column-actions">a b c</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">one</div>
+						<div class="column column-translation">Hello Worlsd</div>
+						<div class="column column-actions">avc</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">many</div>
+						<div class="column column-translation" asdasd></div>
+						<div class="column column-actions">asdasd</div>
+					</div>
+				</div>
+				<div class="group language-group">
+					<div class="column column-language">en</div>
+					<div class="group plural-group">
+						<div class="column column-plural">other</div>
+						<div class="column column-translation">Hallo Welt</div>
+						<div class="column column-actions">a b c</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">one</div>
+						<div class="column column-translation">Hello Worlsd</div>
+						<div class="column column-actions">avc</div>
+					</div>
+					<div class="group plural-group">
+						<div class="column column-plural">many</div>
+						<div class="column column-translation" asdasd></div>
+						<div class="column column-actions">asdasd</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

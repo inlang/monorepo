@@ -1,0 +1,70 @@
+<%
+// given a strings source file in a specific format (typically ini), this will output an xcode .stringsdict (xml) file
+// of all the singular strings for the specified `launguage` parameter.
+// - Note: the stringdict format can get really complex in some edge cases, like multiple pluralizable
+//         sentences in the same string. This and some more feature, to document are yet to be supported.
+
+
+/// BEGIN PREPARATION
+
+// create data array
+languageStrings = [];
+
+for (const message of messages) { 
+
+  	let pluralTranslations = {};
+	let isPlural = false;
+	for (const [message, translation] of Object.entries(translations)) {
+		let messageParts = message.split(':');
+		if (messageParts.length != 2 || messageParts[0] != language) {
+			continue;
+		}
+
+		isPlural = true;
+		pluralTranslations[messageParts[1]] = translation;
+
+	}
+
+	// filter out keys that do not have a matching value in current language so we get compile errors thanks to R(swift).
+	if (!isPlural) {
+		continue
+	}
+
+
+	// creates an item with only the essential data to be serialized/printed
+	languageElement = {}
+	languageElement.messageName = messageName
+	languageElement.translations = pluralTranslations;
+	languageElement.comment = translations.comment
+	languageStrings.push(languageElement)
+}
+
+// sort it
+languageStrings.sort((a, b) => a.key.localeCompare(b.key));
+
+/// BEGIN TEMPLATE
+-%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<%_ for (let i = 0; i < languageStrings.length; i++) { _%>
+	<key><%-languageStrings[i].messageName%></key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@value@</string>
+		<key>value</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<%_ for (const [pluralKey, translation] of Object.entries(languageStrings[i].translations)) { _%>
+			<key><%-pluralKey%></key>
+			<string><%-translation%></string>
+			<%_ } _%>
+		</dict>
+	</dict>
+	<%_ } _%>
+</dict>
+</plist>

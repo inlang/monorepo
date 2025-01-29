@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "ES2022",
+    "strict": true,
+		// strict ES module
+		"module": "ES2022",
+		// strict ES module
+		"moduleResolution": "Bundler",
+
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "noImplicitThis": false,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@figma"
+    ],
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "manifest.figma.ts"],
+  "exclude": ["snipets/**"]
+}

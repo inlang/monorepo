@@ -1,0 +1,17 @@
+.file-select {
+	vertical-align: middle;
+	display: table-cell;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+.file-select input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	opacity: 0;
+	font-size: 300px;
+	height: 100%;
+}

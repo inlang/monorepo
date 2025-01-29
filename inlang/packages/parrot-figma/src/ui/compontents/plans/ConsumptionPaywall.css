@@ -1,0 +1,219 @@
+.consumption_paywall_modals--largeModal {
+	padding: 32px;
+	border-radius: 6px;
+	font:
+		400 11px/16px Inter,
+		sans-serif;
+	position: relative;
+	max-height: 80%;
+	width: 100%;
+	min-width: 300px;
+	padding: 24px;
+	word-break: break-word;
+	font-size: 11px;
+	background-color: var(--figma-color-bg, #fff);
+	border-radius: 2px;
+	box-sizing: border-box;
+	overflow: hidden;
+	-webkit-font-smoothing: antialiased;
+}
+
+.consumption_paywall_modals--largeModalTitle {
+	font-size: 20px;
+	line-height: 32px;
+	font-weight: 600;
+	margin-bottom: 4px;
+	font:
+		400 14px/24px Inter,
+		sans-serif;
+	margin-bottom: 24px;
+	font-size: 14px;
+	line-height: 20px;
+	color: var(--figma-color-text, #2c2c2c);
+	margin-top: -4px;
+	padding-right: 48px;
+}
+
+.consumption_paywall_modals--closeButton {
+	margin-right: -8px;
+	position: absolute;
+	right: 15px;
+	top: 14px;
+	border: 1px solid transparent;
+	outline: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 32px;
+	width: 32px;
+	flex: 0 0 32px;
+	line-height: 32px;
+	cursor: default;
+	fill: var(--figma-color-icon, #000);
+	color: var(--figma-color-icon, #000);
+	border-radius: 2px;
+	background-clip: padding-box;
+	background-color: transparent;
+}
+
+.consumption_paywall_modals--closeButton span {
+	background-color: unset;
+}
+
+.consumption_paywall_modals--largeModalSubtitle {
+	margin-bottom: 16px;
+	font-size: 13px;
+	line-height: 24px;
+	letter-spacing: calc(-0.003px + var(--text-tracking-pos, 0) * 13px);
+	font-family: Inter, sans-serif;
+}
+
+.consumption_paywall_modals--planBoxContainer {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	line-height: 24px;
+	letter-spacing: calc(-0.003px + var(--text-tracking-pos, 0) * 13px);
+	font-family: Inter, sans-serif;
+}
+
+.consumption_paywall_modals--planBox {
+	flex: 1;
+	padding: 24px;
+	border: 1px solid var(--color-border, #e5e5e5);
+	box-sizing: border-box;
+	border-radius: 6px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.consumption_paywall_modals--planName {
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	font-size: 18px;
+	line-height: 24px;
+	letter-spacing: calc(-0.014px + var(--text-tracking-pos, 0) * 18px);
+	font-family: Inter, sans-serif;
+}
+
+.badge--badgeLarge {
+	margin-left: 8px;
+	background-color: var(--figma-color-bg-tertiary, #f0f0f0);
+	color: var(--figma-color-text-tertiary, rgba(0, 0, 0, 0.3));
+	padding: 2px 8px;
+	border-radius: 4px;
+	font-weight: 500;
+	display: inline-block;
+	user-select: none;
+	font-size: 11px;
+	line-height: 16px;
+	letter-spacing: calc(0.005px + var(--text-tracking-pos, 0) * 11px);
+	font-family: Inter, sans-serif;
+}
+
+.consumption_paywall_modals--planDescription {
+	margin: 8px 0;
+	color: var(--figma-color-text-secondary, rgba(0, 0, 0, 0.3));
+}
+.consumption_paywall_modals--starterPriceRow {
+	height: 40px;
+	display: flex;
+	align-items: center;
+}
+
+.consumption_paywall_modals--costText {
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: calc(-0.011px + var(--text-tracking-pos, 0) * 16px);
+}
+
+.consumption_paywall_modals--planBoxDivider {
+	height: 1px;
+	background-color: var(--figma-color-border, #e5e5e5);
+	width: 100%;
+	margin: 16px 0;
+}
+
+.consumption_paywall_modals--planFeatureList {
+	margin-top: 16px;
+}
+
+.consumption_paywall_modals--planFeatureParent {
+	position: relative;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.consumption_paywall_modals--planFeatureList > * + * {
+	margin-top: 12px;
+}
+
+.consumption_paywall_modals--priceIconAndProductName {
+	display: flex;
+	align-items: center;
+}
+
+.consumption_paywall_modals--priceRowProductName {
+	display: flex;
+	align-items: center;
+}
+
+.consumption_paywall_modals--priceRow {
+	justify-content: space-between;
+	padding: 4px 0;
+	display: flex;
+	align-items: center;
+}
+
+.consumption_paywall_modals--priceIcon {
+	position: relative;
+	left: -6px;
+}
+
+.consumption_paywall_modals--planButton {
+	font-size: 13px;
+	color: var(--figma-color-text-onbrand, #fff);
+	background-color: var(--figma-color-bg-brand);
+	border-color: transparent;
+	background-clip: border-box;
+	font-weight: 500;
+	max-width: unset;
+	width: 100%;
+	display: block;
+	text-align: center;
+	flex-shrink: 0;
+	padding: 0 15px;
+	box-sizing: border-box;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--figma-color-bg-brand, rgba(0, 0, 0, 0.8));
+	height: 44px;
+	border-radius: 8px;
+	line-height: 42px;
+}
+
+.blue_link--blueLink {
+	text-decoration: none;
+	color: var(--figma-color-text-brand);
+	cursor: pointer;
+	-webkit-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+
+.consumption_paywall_modals--licenseKey {
+	color: var(--figma-color-text-brand);
+	cursor: pointer;
+	-webkit-user-select: auto;
+	user-select: auto;
+}

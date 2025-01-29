@@ -1,0 +1,83 @@
+name: Publish to Figma store
+
+on:
+  push:
+    branches: [ "production" ]
+
+env:
+  ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+  SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+  FIGMA_TEXT_FILE: ${{ vars.FIGMA_TEXT_FILE }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+  MIXPANEL_ACCESS_TOKEN: ${{ secrets.MIXPANEL_ACCESS_TOKEN }}
+  PUBLIC_POSTHOG_TOKEN: ${{ secrets.PUBLIC_POSTHOG_TOKEN }}
+  FIGMA_WEB_AUTHN_TOKEN: ${{ secrets.FIGMA_WEB_AUTHN_TOKEN }}
+  FIGMA_RECENT_USER_DATA: ${{ secrets.FIGMA_RECENT_USER_DATA }}
+  GH_ACTION_TRIGGER_TOKEN: ${{ secrets.GH_ACTION_TRIGGER_TOKEN }}
+  PARROT_API_KEY: ${{ secrets.PARROT_API_KEY }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        
+    # - name: Cache node modules
+    #   id: cache-nodemodules
+    #   uses: actions/cache@v2
+    #   env:
+    #     cache-name: cache-node-modules
+    #   with:
+    #     # caching node_modules
+    #     path: node_modules
+    #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-build-${{ env.cache-name }}-
+    #       ${{ runner.os }}-build-
+    #       ${{ runner.os }}-
+
+    - name: Install Dependencies
+     # if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+      run: npm install
+
+    - name: Set next Figma version as minor version in package.js
+      run: | 
+        npx figcd prepare
+      
+    - name: Build plugin and publish to Sentry (part of webpack)
+      run: |
+        npm run build
+          
+    - name: Publish new Version to Figma
+      run: | 
+        npx figcd release
+      
+        # npx figcd release --release-notes-file changelog-{{VERSION}}.txt
+    # - name: Update Metadata in public page
+    #   run: |
+    #     # the trigger token must be a personal acces token that can trigger actions
+    #     # Set it up in https://github.com/settings/tokens
+    #     curl --fail -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_ACTION_TRIGGER_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/parrots-globaln/parrot/actions/workflows/static.yml/dispatches -d '{"ref":"main"}'
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        # Artifact name
+        name: Figma plugin
+        # A file, directory or wildcard pattern that describes what to upload
+        path: |
+          ./dist/*          
+          ./manifest.json
+        # The desired behavior if no files are found using the provided path.
+   
+        retention-days: 90

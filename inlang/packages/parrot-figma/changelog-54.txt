@@ -1,0 +1,19 @@
+New Export Feature - Android and iOS Localization Key Export:
+
+We are delighted to introduce a powerful new export feature in Parrot that allows you to export your localization keys for Android (XML format) and iOS (.strings format) platforms directly from Figma! This exciting enhancement empowers you to seamlessly integrate your design with mobile app development, making the localization process smoother and more efficient.
+
+Key Features:
+
+Android XML Format Export:
+
+- With this update, you can now export your localization keys in the XML format specifically tailored for Android app development. This standardized format ensures effortless integration into Android projects, making it easier to manage and implement localized content.
+
+iOS .strings Format Export:
+
+- Exporting localization keys for iOS has never been simpler. Parrot now supports the .strings format, which is the standard format used for localizing iOS applications. This compatibility streamlines the localization workflow and enables you to focus on creating engaging app experiences.
+
+How to Use the New Export Feature:
+
+1. Open the Export tab in Parrot
+2. Select the Export Target on the top right of the Export tab
+3. Click on the Export Button on the right of each language

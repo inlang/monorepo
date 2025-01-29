@@ -1,0 +1,80 @@
+.modal-window-background {
+	background: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+}
+.modal-window {
+	position: absolute;
+	padding: 24px;
+	left: 50%;
+	transform: translate(-50%, 0px);
+	top: 10px;
+	background-color: var(--figma-color-bg);
+
+	border: 0.5px solid rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 2px 14px rgb(0 0 0 / 15%);
+	border-radius: 2px;
+}
+
+.modal-window-title {
+	font-size: 14px;
+	line-height: 24px;
+	letter-spacing: calc(-0.006px + var(--text-tracking-pos, 0) * 14px);
+	font-family: Inter, sans-serif;
+}
+
+.modal-window-section {
+	margin-top: 12px;
+}
+
+.modal-window-input {
+	width: 100%;
+	color: var(--color-text, black);
+	background-color: var(--figma-color-bg, white);
+	border: 1px solid var(--figma-color-border, #d4d4d4);
+	border-radius: 2px;
+	box-sizing: border-box;
+	font-family: Inter, sans-serif;
+	outline: none;
+	resize: none;
+	padding: 6px;
+	height: 2.5em;
+	min-width: 300px;
+	font-size: 11px;
+}
+
+.modal-window-input:focus {
+	border-color: var(--figma-color-border-selected, white);
+}
+
+.modal-window-input:placeholder-shown {
+	color: var(--figma-color-text-tertiary, black);
+}
+
+.modal-window-button-row {
+	margin-top: 8px;
+}
+.buttonGroup {
+	display: flex;
+	position: sticky;
+	flex-direction: row;
+	bottom: 16px;
+	margin: 16px;
+	z-index: 15;
+}
+
+.buttonGroup-reversed {
+	flex-direction: row-reverse;
+}
+
+.language-export-action {
+	margin-right: 8px;
+	margin-left: auto;
+}

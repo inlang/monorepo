@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Language Selector</title>
+		<style>
+			.tile-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				align-items: center;
+			}
+
+			.tile {
+				display: flex;
+				align-items: center;
+				margin: 5px;
+				padding: 10px;
+				border-radius: 5px;
+				border: 1px solid #e5e5e5;
+				cursor: pointer;
+				font-size: 14px;
+				font-weight: bold;
+				color: #333333;
+				background-color: #ffffff;
+				transition: background-color 0.2s ease-in-out;
+			}
+
+			.tile:hover:not(.selected) {
+				background-color: #f5f5f5;
+			}
+
+			.tile .selected {
+				background-color: #007aff;
+				color: #ffffff;
+				border-color: #007aff;
+			}
+
+			.flag-icon {
+				height: 20px;
+				width: 20px;
+				display: block;
+				margin-right: 10px;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+
+			.flag-icon img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="tile selected">
+				<span class="flag-icon"><img src="flags/us.svg" alt="US flag" /></span>
+				English
+			</div>
+			<div class="tile">
+				<span class="flag-icon"><img src="flags/de.svg" alt="German flag" /></span>
+				German
+			</div>
+			<div class="tile">
+				<span class="flag-icon"><img src="flags/fr.svg" alt="French flag" /></span>
+				French
+			</div>
+			<div class="tile">
+				<span class="flag-icon"><img src="flags/es.svg" alt="Spanish flag" /></span>
+				Spanish
+			</div>
+			<div class="tile">
+				<span class="flag-icon"><img src="flags/it.svg" alt="Italian flag" /></span>
+				Italian
+			</div>
+			<!-- Add more languages and flags as needed -->
+		</div>
+
+		<script>
+			// Add event listeners to the language tiles to toggle the selected class
+			var languageTiles = document.querySelectorAll(".tile");
+			for (var i = 0; i < languageTiles.length; i++) {
+				languageTiles[i].addEventListener("click", function () {
+					this.classList.toggle("selected");
+				});
+			}
+		</script>
+	</body>
+</html>

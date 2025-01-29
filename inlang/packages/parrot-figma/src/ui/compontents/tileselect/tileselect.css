@@ -1,0 +1,46 @@
+.tile-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.tile {
+	display: flex;
+	align-items: center;
+	margin: 5px;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #e5e5e5;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+	background-color: #ffffff;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.tile:hover:not(.selected) {
+	background-color: #f5f5f5;
+}
+
+.tile.selected {
+	background-color: #007aff;
+	color: #ffffff;
+	border-color: #007aff;
+}
+
+.flag-icon {
+	height: 20px;
+	width: 20px;
+	display: block;
+	margin-right: 10px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.flag-icon img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}

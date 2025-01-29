@@ -1,0 +1,426 @@
+:root {
+	--figma-color-bg-menu-hover: #2c2c2c;
+	--figma-color-bg-menu-pressed: #2c2c2c;
+	--figma-color-bg-menu-secondary: #383838;
+	--figma-color-bg-menu-selected: #0d99ff;
+	--figma-color-bg-menu-selected-hover: #007be5;
+	--figma-color-bg-menu-selected-pressed: #007be5;
+	--figma-color-bg-menu-selected-secondary: #394360;
+	--figma-color-bg-menu-selected-tertiary: #394360;
+	--figma-color-bg-menu-tertiary: #444444;
+
+	--color-icon-menu: rgba(255, 255, 255, 1);
+	--color-icon-menu-danger: #f24822;
+	--color-icon-menu-disabled: rgba(255, 255, 255, 0.4);
+	--color-icon-menu-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-ondisabled: #1e1e1e;
+	--color-icon-menu-onselected: rgba(255, 255, 255, 1);
+	--color-icon-menu-pressed: #0d99ff;
+	--color-icon-menu-secondary: rgba(255, 255, 255, 0.7);
+	--color-icon-menu-secondary-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-selected: #80caff;
+	--color-icon-menu-selected-secondary: #80caff;
+	--color-icon-menu-selected-tertiary: #80caff;
+	--color-icon-menu-tertiary: rgba(255, 255, 255, 0.4);
+	--color-icon-menu-tertiary-hover: rgba(255, 255, 255, 1);
+	--color-icon-menu-warning: #ffcd29;
+
+	--color-text-menu: rgba(255, 255, 255, 1);
+	--color-text-menu-danger: #ffafa3;
+	--color-text-menu-disabled: rgba(255, 255, 255, 0.4);
+	--color-text-menu-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-ondisabled: #1e1e1e;
+	--color-text-menu-onselected: rgba(255, 255, 255, 1);
+	--color-text-menu-secondary: rgba(255, 255, 255, 0.7);
+	--color-text-menu-secondary-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-selected: #80caff;
+	--color-text-menu-selected-secondary: #80caff;
+	--color-text-menu-selected-tertiary: #80caff;
+	--color-text-menu-tertiary: rgba(255, 255, 255, 0.4);
+	--color-text-menu-tertiary-hover: rgba(255, 255, 255, 1);
+	--color-text-menu-warning: #ffd966;
+
+	--color-border-menu: #383838;
+
+	/* TYPOGRAPHY */
+	/* Pos = positive applications (black on white) */
+	/* Neg = negative applications (white on black) */
+	/* Font stack */
+	--font-stack: "Inter", sans-serif;
+	/* Font sizes */
+	--font-size-xsmall: 11px;
+	--font-size-small: 12px;
+	--font-size-large: 13px;
+	--font-size-xlarge: 14px;
+	/* Font weights */
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-bold: 600;
+	/* Lineheight */
+	--font-line-height: 16px;
+	/* Use For xsmall, small font sizes */
+	--font-line-height-large: 24px;
+	/* Use For large, xlarge font sizes */
+	/* Letterspacing */
+	--font-letter-spacing-pos-xsmall: 0.005em;
+	--font-letter-spacing-neg-xsmall: 0.01em;
+	--font-letter-spacing-pos-small: 0;
+	--font-letter-spacing-neg-small: 0.005em;
+	--font-letter-spacing-pos-large: -0.0025em;
+	--font-letter-spacing-neg-large: 0.0025em;
+	--font-letter-spacing-pos-xlarge: -0.001em;
+	--font-letter-spacing-neg-xlarge: -0.001em;
+	/* BORDER RADIUS */
+	--border-radius-small: 2px;
+	--border-radius-med: 5px;
+	--border-radius-large: 6px;
+	/* SHADOWS */
+	--shadow-hud: 0 5px 17px rgba(0, 0, 0, 0.2), 0 2px 7px rgba(0, 0, 0, 0.15);
+	--shadow-floating-window: 0 2px 14px rgba(0, 0, 0, 0.15);
+	/* SPACING + SIZING */
+	--size-xxxsmall: 4px;
+	--size-xxsmall: 8px;
+	--size-xsmall: 16px;
+	--size-small: 24px;
+	--size-medium: 32px;
+	--size-large: 40px;
+	--size-xlarge: 48px;
+	--size-xxlarge: 64px;
+	--size-xxxlarge: 80px;
+}
+
+select.select-menu {
+	display: none;
+}
+
+.select-menu {
+	position: relative;
+}
+
+.select-menu__button.placeholder {
+	color: var(--figma-color-text-disabled);
+}
+
+.select-menu__button {
+	display: flex;
+	align-items: center;
+	border: 1px solid transparent;
+	height: 30px;
+	width: 100%;
+	margin: 1px 0 1px 0;
+	padding: 0px;
+	overflow-y: hidden;
+	border-radius: var(--border-radius-small);
+	background-color: transparent;
+}
+
+.select-menu__button:hover {
+	border-color: var(--figma-color-border);
+}
+
+.select-menu__button:focus {
+	border: 1px solid var(--figma-color-border);
+	outline: 1px solid var(--figma-color-border);
+	outline-offset: -2px;
+}
+
+.select-menu__button:disabled:hover {
+	justify-content: flex-start;
+	border-color: transparent;
+}
+
+.select-menu__button * {
+	pointer-events: none;
+}
+
+.select-menu__button:hover .select-menu__caret {
+	background-color: var(--figma-color-text-tertiary-hover);
+}
+
+.select-menu__button:hover .select-menu__label--placeholder {
+	color: var(--black8);
+}
+
+.select-menu__button:focus .select-menu__label--placeholder {
+	color: var(--black8);
+}
+
+.select-menu__button:disabled:hover .select-menu__label--placeholder {
+	color: var(--black3);
+}
+
+.select-menu__button:hover .select-menu__caret,
+.select-menu__button:focus .select-menu__caret {
+	background-color: var(--figma-color-text-tertiary-hover);
+
+	margin-left: auto;
+}
+
+.select-menu__button:disabled:hover .select-menu__caret {
+	color: var(--figma-color-text-tertiary-hover);
+	margin-left: -12px;
+}
+
+.select-menu__button:disabled .select-menu__label {
+	color: var(--black3);
+}
+
+.select-menu__label-spacer {
+	padding-left: 8px;
+}
+
+.select-menu__label.select-menu__label-part1 {
+	margin-right: 4px;
+}
+
+.select-menu__label.select-menu__label-part2 {
+	overflow-x: visible;
+}
+
+.select-menu__label {
+	font-size: var(--font-size-xsmall);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-xsmall);
+	line-height: var(--line-height);
+	color: var(--figma-color-text);
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+
+.placeholder .select-menu__label {
+	color: var(--figma-color-text-disabled);
+}
+
+.select-menu__label--placeholder {
+	color: var(--figma-color-text-tertiary);
+}
+
+.select-menu__caret {
+	width: 28px;
+	height: 30px;
+	display: block;
+	margin-top: -1px;
+	margin-right: 8px;
+}
+
+.select-menu .icon {
+	margin-left: -8px;
+	margin-top: -2px;
+	margin-right: 0;
+	opacity: 0.3;
+}
+
+.select-menu__menu {
+	display: none;
+
+	/* position will be calculated by the component
+   
+  top: 0;
+  left: 0;
+  */
+	background-color: var(--figma-color-bg-menu-hover);
+	padding: var(--size-xxsmall) 0 var(--size-xxsmall) 0;
+	border-radius: var(--border-radius-small);
+	margin: 0;
+
+	overflow-x: overlay;
+	overflow-y: auto;
+}
+
+.select-menu__menu--active {
+	display: block;
+}
+
+.select-menu__menu::-webkit-scrollbar {
+	width: 12px;
+	background-color: transparent;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
+	background-repeat: repeat;
+	background-size: 100% auto;
+}
+
+.select-menu__menu::-webkit-scrollbar-track {
+	border: solid 3px transparent;
+	box-shadow: inset 0 0 10px 10px transparent;
+}
+
+.select-menu__menu::-webkit-scrollbar-thumb {
+	border: solid 3px transparent;
+	border-radius: 6px;
+	box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
+}
+
+.select-menu__item {
+	align-items: center;
+	color: var(--color-text-menu);
+	cursor: default;
+	display: flex;
+	font-family: var(--font-stack);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-xsmall);
+	line-height: var(--font-line-height);
+	height: var(--size-small);
+	padding: 0px 0px 0px 0px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}
+
+.select-menu__item--selected .select-menu__item-selected-checkmark {
+	opacity: 1;
+}
+
+.select-menu__item-check {
+	width: 18px;
+	padding-left: 8px;
+	flex-shrink: 0;
+}
+
+.select-menu__item-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 24px;
+	line-height: 24px;
+	pointer-events: none;
+	margin-right: 8px;
+}
+
+.select-menu__item-label {
+	overflow-x: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.select-menu__item-icon .svg-container {
+	width: 15px;
+	height: 15px;
+}
+
+.select-menu__item-check .svg-container.menu-checkmark-svg {
+	width: 16px;
+	height: 16px;
+	background-color: var(--color-text-menu);
+}
+
+.select-menu--highlight,
+.select-menu__item:hover,
+.select-menu__item:focus {
+	background-color: var(--figma-color-bg-selected-strong);
+}
+
+.select-menu__divider-label {
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-normal);
+	letter-spacing: var(--font-letter-spacing-neg-small);
+	line-height: var(--line-height);
+	display: flex;
+	align-items: center;
+	height: var(--size-small);
+	padding: 0 var(--size-xxsmall) 0 var(--size-medium);
+	color: var(--color-border-menu);
+	margin-top: 0;
+}
+
+.select-menu__divider {
+	background-color: var(--figma-color-bg-menu-secondary);
+	display: block;
+	height: 1px;
+	margin: 8px 0 7px 0;
+}
+
+.select-menu__menu_container.select-menu__menu_container-expanded {
+	display: inherit;
+
+	box-shadow: var(--shadow-hud);
+	border-radius: var(--border-radius-small);
+}
+
+.select-menu__menu_container {
+	display: none;
+	height: 30px;
+	position: absolute;
+	/*
+  gets calculated
+  width: 100px;
+  height: 100px;
+  top: 10px;
+  left: 20px;
+  */
+	z-index: 1000000;
+}
+
+.select-menu__menu_wrapper::-webkit-scrollbar {
+	display: none;
+}
+
+.select-menu__menu_wrapper {
+	height: 100%;
+	width: 100%;
+	overflow: scroll;
+
+	/*
+  gets calculated
+  width: 100px;
+  height: 100px;
+  top: 10px;
+  left: 20px;
+  */
+	z-index: 1000000;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.select-menu__menu-scroll-up {
+	background-color: var(--figma-color-bg-menu-hover);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 16px;
+	width: 100%;
+}
+
+.select-menu__menu-scroll-up > .svg-container {
+	background-color: var(--color-text-menu);
+	width: 8px;
+	height: 8px;
+}
+
+.select-menu__item-label-tag {
+	background-color: grey;
+	color: var(--figma-color-text-onbrand);
+	border-radius: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-right: 8px;
+}
+
+.select-menu__menu-scroll-down {
+	background-color: var(--figma-color-bg-menu-hover);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 16px;
+	width: 100%;
+}
+
+.select-menu__menu-scroll-down > .svg-container {
+	background-color: var(--color-text-menu);
+	width: 8px;
+	height: 8px;
+}

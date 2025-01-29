@@ -1,0 +1,19 @@
+name: Todohub Workflow
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  todohub-job:
+    name: Todohub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Remote Action
+        id: test-action
+        uses: todos-in/todohub@main

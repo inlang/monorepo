@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>My App</title>
+
+		<link rel="stylesheet" href="./figma_light.css" id="figma-style-ligh" />
+		<link rel="stylesheet" href="./figma_dark.css" id="figma-style-dark" />
+		<script>
+			const hashStringParts = window.location.hash.split("|");
+
+			if (hashStringParts.length == 2) {
+				if (hashStringParts[1] === "figma-light") {
+					const figmaDarkModeStyleEl = document.getElementById("figma-style-dark");
+					figmaDarkModeStyleEl.remove();
+				}
+			}
+		</script>
+		<style id="figma-style"></style>
+	</head>
+	<body>
+		<div id="sizing-wrapper" style="height: 100%; overflow: hidden">
+			<div id="height-resize-handle" class="height-resize-handle" style="display: none">
+				<div class="height-resize-container">
+					<div class="height-resize-handle-scrollcontent"></div>
+				</div>
+			</div>
+			<div id="react-page"></div>
+		</div>
+		<div id="resize-handle">
+			<svg
+				id="corner"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path d="M16 0V16H0L16 0Z" fill="white" />
+				<path d="M6.22577 16H3L16 3V6.22576L6.22577 16Z" fill="#8C8C8C" />
+				<path d="M11.8602 16H8.63441L16 8.63441V11.8602L11.8602 16Z" fill="#8C8C8C" />
+			</svg>
+		</div>
+
+		<script type="module" src="./ui.tsx"></script>
+	</body>
+</html>

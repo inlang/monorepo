@@ -1,0 +1,195 @@
+.ql-tooltip.ql-flip .ql-tooltip-arrow {
+	border-top: 6px solid #1e1e1e;
+	bottom: -5px;
+}
+
+.ql-tooltip:not(.ql-flip) .ql-tooltip-arrow {
+	border-bottom: 6px solid #1e1e1e;
+	top: -5px;
+}
+.ql-tooltip-arrow {
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	content: " ";
+	display: block;
+	margin-left: -6px;
+	position: absolute;
+}
+
+.ql-toolbar span.ql-formats {
+	margin: unset;
+}
+
+.ql-toolbar {
+	display: flex;
+	margin: 2px;
+}
+
+.ql-tooltip-hidden {
+	/* display: none; */
+	visibility: hidden;
+}
+
+.ql-formats {
+	flex: 0 0 auto;
+}
+
+.ql-placeholder-editor {
+	flex: 0 0 auto;
+	margin: 8px 12px 8px 0px;
+}
+
+.ql-placeholder-editor input {
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-size: 13px;
+	height: 100%;
+	outline: none;
+	width: 100px;
+}
+
+.ql-tooltip-editor.ql-editing {
+	height: 100%;
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	background-color: rgb(18, 13, 13);
+	display: block !important;
+}
+
+div.ql-tooltip {
+	position: fixed !important;
+
+	z-index: 3 !important;
+	background-color: #1e1e1e;
+	/* border: 1px solid #1e1e1e; */
+
+	box-shadow:
+		rgba(0, 0, 0, 0.35) 0px 5px 12px 0px,
+		rgba(0, 0, 0, 0.5) 0px 1px 3px 0px,
+		rgba(255, 255, 255, 0.08) 0px 0.5px 0px 0px inset,
+		rgba(255, 255, 255, 0.3) 0px 0px 0.5px 0px inset;
+	color: var(--figma-color-text-tooltip, #333333) !important;
+	white-space: nowrap !important;
+	border-radius: 2px !important;
+}
+
+.ql-placeholder-fillin {
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-size: 13px;
+	outline: none;
+	padding: 3px 12px;
+}
+
+.ql-toolbar .ql-formats button {
+	border-radius: 3px;
+	height: 32px;
+	width: 32px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+	padding: 3px;
+
+	background: none;
+
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	float: left;
+	/* padding: 3px 5px; */
+}
+
+.ql-toolbar .ql-formats button:hover {
+	border-color: #383838;
+}
+
+.ql-tooltip .svg-container {
+	pointer-events: none;
+	height: 24px;
+	width: 24px;
+	border-width: 1px;
+	border-radius: 2px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	background-color: unset;
+}
+
+.ql-tooltip button:hover .svg-container {
+	background-color: #383838;
+}
+
+.ql-tooltip button.ql-active .svg-container {
+	background-color: #383838;
+}
+
+.ql-tooltip .svg-container div {
+	pointer-events: none;
+	height: 16px;
+	width: 16px;
+	background-color: white;
+}
+
+.ql-button-group {
+	border-radius: 3px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+	float: left;
+}
+
+.ql-button-group:hover {
+	border-color: 383838;
+}
+
+.ql-toolbar .ql-formats .ql-button-group button {
+	border: none;
+	width: 30px;
+	height: 30px;
+}
+
+.ql-button-group input {
+	outline: 0;
+	color: white;
+	width: 120px;
+	margin-top: 3px;
+	margin-right: 3px;
+	border: solid 1px transparent;
+	border-radius: 2px;
+	height: 24px;
+	background-color: #383838;
+}
+
+.ql-input-overlay {
+	background-color: #1e1e1e;
+	position: absolute;
+	z-index: 1;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.ql-input-overlay .ql-placholder-wrapper {
+}
+
+.ql-input-overlay input {
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-size: 13px;
+	height: 100%;
+	outline: none;
+	padding: 10px 20px;
+	position: absolute;
+	width: 100%;
+}

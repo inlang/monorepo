@@ -1,0 +1,39 @@
+.segmented-control {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 2px;
+	height: 24px;
+	padding: 0 1px;
+}
+
+.segmented-control:hover {
+	box-shadow: inset 0 0 0 1px var(--figma-color-bg-hover);
+}
+
+.segmented-control-segment {
+	flex: 0 0 24px;
+	width: 24px;
+	height: 24px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-clip: padding-box;
+	position: relative;
+	border-radius: 2px;
+}
+
+.segmented-control-segment:hover {
+	background-color: var(--figma-color-bg-hover);
+}
+
+.segmented-control-segment.selected {
+	box-shadow: inset 0 0 0 1px var(--figma-color-border);
+	background-color: var(--figma-color-border);
+}
+
+.segmented-control .svg-container {
+	width: 14px;
+	height: 14px;
+}

@@ -1,0 +1,28 @@
+.tabHeader {
+	padding-left: 16px;
+	padding: 0 8px;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	height: 40px;
+}
+
+.tab {
+	cursor: default;
+	font-weight: 500;
+	padding-left: 8px;
+	padding-right: 8px;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	height: 40px;
+	color: var(--figma-color-text-secondary);
+}
+
+.tab:hover {
+	color: var(--figma-color-text-hover);
+}
+
+.tab.active {
+	color: var(--figma-color-text);
+}

@@ -1,0 +1,406 @@
+.spacer {
+	width: 16px;
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+
+.element-symbol {
+	width: 16px;
+	display: flex;
+	justify-content: center;
+	flex-shrink: 0;
+	height: 100%;
+	align-items: center;
+}
+
+.top-border {
+	height: 1px;
+}
+
+.layer-group-header {
+	height: 32px;
+	position: sticky;
+	top: 0px;
+	z-index: 2;
+	background-color: var(--figma-color-bg);
+	display: flex;
+	align-items: center;
+	align-content: center;
+}
+
+.layer-group-header-border {
+	background-color: var(--figma-color-border);
+	align-items: center;
+	display: flex;
+	height: 32px;
+	position: sticky;
+	top: 1px;
+	z-index: 1;
+	margin-top: -32px;
+}
+
+.layer-group-header .element-name {
+	font-weight: 600;
+}
+
+.layer-group-header-sticky-border {
+	background-color: var(--figma-color-border);
+	align-items: center;
+	display: flex;
+	height: 32px;
+	position: sticky;
+	top: 1px;
+	z-index: 1;
+	margin-top: -32px;
+}
+.layer-group-header .frame-actions .frame-icon .svg-container {
+	width: 26px;
+	height: 16px;
+	background-color: var(--figma-color-text);
+}
+
+.row-actions {
+	padding-right: 8px;
+	display: flex;
+	justify-content: right;
+	align-items: top;
+	flex-grow: 1;
+}
+
+.layer-group-header .row-actions {
+	align-items: center;
+}
+
+.layer:hover::after {
+	border-color: var(--figma-color-border-selected);
+}
+
+.layer.selected {
+	background-color: var(--figma-color-bg-selected);
+	scroll-margin-top: 32px;
+}
+
+.layer.selected:hover::after {
+	border-color: transparent;
+}
+
+.layer-group-header::after {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 1;
+	background-color: transparent;
+	border: 1px solid transparent;
+	pointer-events: none;
+}
+
+.layer-group-header:hover::after {
+	border-color: var(--figma-color-border-selected);
+}
+
+.nodes-parent {
+	border-color: transparent;
+}
+
+.nodes-parent:hover {
+	border-color: var(--figma-color-border-selected);
+}
+
+.nodes-parent.selected {
+	border-color: transparent;
+	background-color: var(--figma-color-bg-selected);
+}
+
+.nodes-parent.selected:hover {
+	border-color: transparent;
+}
+
+.row-actions .row-action-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 32px;
+	/*background-color: var(--figma-color-text);*/
+}
+
+.layer {
+	display: flex;
+	align-items: flex-start;
+	position: relative;
+}
+
+.layer::after {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 1;
+	background-color: transparent;
+	border: 1px solid transparent;
+	pointer-events: none;
+}
+
+.layer:hover::after {
+	border-color: var(--figma-color-border-selected);
+}
+
+.layer.selected {
+	background-color: var(--figma-color-bg-selected);
+	scroll-margin-top: 32px;
+}
+
+.layer.selected:hover::after {
+	border-color: transparent;
+}
+
+.layer.selected-by-parent {
+	background-color: var(--figma-color-bg-selected-secondary);
+	scroll-margin-top: 32px;
+}
+
+.element-symbol .svg-container {
+	background-color: var(--figma-color-icon-tertiary);
+}
+
+.nodes-parent .element-symbol .svg-container {
+	background-color: var(--figma-color-icon);
+}
+
+.selected .element-symbol .svg-container {
+	background-color: var(--figma-color-icon);
+}
+
+.translation-container {
+	flex-flow: column;
+	display: flex;
+	align-items: flex-start;
+	flex-grow: 1;
+	align-content: center;
+}
+
+.layer-name {
+	display: flex;
+	align-items: center;
+	color: var(--figma-color-text);
+	min-width: 180px;
+	max-width: 180px;
+}
+
+.layer-name .text-field-text:hover {
+	border-color: transparent;
+}
+
+.layer-name-details {
+	width: 100%;
+	min-height: 32px;
+	display: flex;
+	align-items: flex-start;
+}
+
+.layer-details {
+	flex-grow: 1;
+}
+
+.header .column-1 {
+	grid-column: 1 / 3;
+}
+.header .element-name {
+	flex-grow: 1;
+}
+
+.element-name {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-feature-settings:
+		"ss02" on,
+		"liga" on,
+		"calt" on;
+	padding-top: -1px;
+	padding-right: 8px;
+	padding-bottom: 0px;
+	padding-left: 8px;
+}
+
+.number-sign-svg {
+	width: 12px;
+	height: 12px;
+}
+
+.message-panel {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	align-content: center;
+}
+
+.message-panel .button.layerIcon {
+	align-self: self-start;
+}
+
+.message-panel .input-select-menu.message-select {
+	min-width: 160px;
+	max-width: 160px;
+	align-self: self-start;
+	display: flex;
+}
+.message-panel .input-select-menu.message-select {
+	margin-left: auto;
+}
+
+.message-panel .input-select-menu__caret {
+	/* margin-left: auto; */
+}
+
+.text-sign-svg {
+	width: 10px;
+	height: 10px;
+}
+
+.key-unset .message-panel .text-field-text input {
+	color: var(--color-text-disabled, #b3b3b3);
+}
+
+.key-unset .message-panel .text-field-text p {
+	color: var(--color-text-disabled, #b3b3b3);
+}
+
+.key-unset .message-panel .text-field .svg-container.key-svg {
+	background-color: var(--color-text-disabled, #b3b3b3);
+}
+
+.layer-name .text-field-text p {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.layer-name .text-field {
+	overflow: hidden;
+}
+
+.message-variant {
+	display: flex;
+	flex-grow: 1;
+}
+
+.message-variant .message-variant-language {
+	min-width: 70px;
+	max-width: 70px;
+	flex-grow: 0;
+	padding-left: 8px;
+	padding-right: 8px;
+	font-feature-settings:
+		"ss02" on,
+		"liga" on,
+		"calt" on;
+	line-height: 32px;
+	height: 32px;
+	white-space: pre;
+	text-align: left;
+}
+
+.top-drawer {
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	max-width: calc(100% - 20px);
+	max-height: calc(100% - 10px);
+	background: var(--figma-color-bg);
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	z-index: 200;
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.15);
+	transform: translateY(-100%);
+	transition:
+		box-shadow 0.3s ease-out,
+		transform 0.3s ease-out;
+	width: max-content;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.layer-message-state__linked {
+	color: var(--figma-color-icon-component);
+}
+
+.layer-message-state__linked .input-select-menu__label {
+	color: var(--figma-color-icon-component);
+}
+
+.layer-message-state__linked .translation-editor-text div * {
+	color: var(--figma-color-icon-component);
+}
+
+.layer-message-state__linked .translation-editor-text.editing div * {
+	color: var(--figma-color-text);
+}
+
+.layer-message-state__linked .message-select .input-select-menu__item-icon .svg-container {
+	width: 24px;
+	height: 24px;
+	background-color: var(--figma-color-icon-component-pressed);
+}
+
+.layer-message-state__linked .message-variant .svg-container.language-tag {
+	background-color: rgb(134, 56, 229, 0.14);
+	color: rgb(134, 56, 229);
+}
+
+.message-select .input-select-menu__item-icon .svg-container.with-message-svg {
+	background-color: rgb(134, 56, 229);
+}
+
+.message-select .input-select-menu__item-icon .svg-container.search-svg {
+	background-color: var(--figma-color-icon);
+}
+
+.message-select .input-select-menu__item-icon .svg-container.goto-message-svg {
+	background-color: var(--figma-color-icon);
+}
+
+.message-select .input-select-menu__item-icon .svg-container.not-localized-svg {
+	background-color: var(--figma-color-icon);
+}
+
+.layer-message-state__unmanaged .message-variant-language {
+	visibility: hidden;
+}
+
+.message-variant .language-tag {
+	color: var(--figma-color-text-onbrand);
+	background-color: grey;
+	border-radius: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 6px;
+}
+
+.message-variant .translation-editor {
+	width: 100%;
+}
+
+.hidden-helper-row * {
+	height: 0px !important;
+	overflow: hidden;
+}
+
+.layer-spacer {
+	width: 4px;
+}
+
+.top-drawer.message-editor-drawer {
+	overflow-y: auto;
+}

@@ -1,0 +1,336 @@
+.translation-editor {
+}
+
+.translation-editor-input-wrapper .translation-editor-scrollbar-overlay .ql-container p,
+.translation-editor-input-wrapper .translation-editor-scrollbar-overlay .ql-container ol,
+.translation-editor-input-wrapper .translation-editor-scrollbar-overlay .ql-container ul {
+	white-space: nowrap;
+}
+
+.translation-editor-input-wrapper p,
+.translation-editor-input-wrapper ul,
+.translation-editor-input-wrapper ol {
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+.translation-editor-input-wrapper .translation {
+	flex: 1;
+	grid-row-start: 1;
+	grid-column-start: 1;
+}
+
+.translation-editor-input-wrapper {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	margin-right: 2px;
+	margin-top: 1px;
+	margin-left: 2px;
+	margin-bottom: 1px;
+}
+
+.translation-editor-input-wrapper .translation-editor-scrollbar-overlay .ql-container {
+	overflow: visible;
+	/* position: relative;
+
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px; */
+	padding-right: 5px;
+
+	padding-left: 8px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	margin-right: 2px;
+	margin-top: 1px;
+	margin-left: 2px;
+	margin-bottom: 1px;
+}
+
+.translation-editor-text-button-group button {
+	height: 24px;
+	background-color: var(--figma-color-bg);
+	border-color: var(--figma-color-border);
+	border-style: solid;
+	border-radius: 4px;
+	margin-top: 3px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	align-items: center;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+.translation-editor-input-wrapper {
+	position: relative;
+	flex: 1;
+}
+
+.translation-editor-input-wrapper ul > li::before {
+	content: "\2022";
+}
+
+.ql-editor ol,
+.ql-editor ul {
+	padding-left: 0em !important;
+}
+
+.ql-hidden-selection-not-visible {
+	display: none;
+}
+
+.ql-hidden {
+	display: none !important;
+}
+
+.ql-button.ql-placeholder {
+	color: #ccc;
+}
+
+.ql-button.ql-placeholder.ql-active {
+	color: #fff;
+}
+
+.translation-editor-input-wrapper pre {
+	grid-row-start: 1;
+	grid-column-start: 1;
+}
+
+.translation-editor-text:hover {
+	border-color: var(--figma-color-border);
+}
+
+.translation-editor-text.editing {
+	background-color: var(--figma-color-bg);
+	border-color: var(--figma-color-border-brand-strong);
+}
+
+.translation-editor-input-wrapper .translation.missing {
+	opacity: 0.4;
+}
+
+.translation-editor-input-wrapper.editing .translation {
+	visibility: hidden;
+}
+/* 
+
+.translation-editor-text {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  border: 1px solid transparent;
+  margin-top: 1px;
+  margin-left: 2px;
+  margin-bottom: 1px;
+  margin-right: 2px;
+} */
+
+.translation-editor-text {
+	position: relative;
+	display: flex;
+	min-height: 18px;
+	border-radius: 2px;
+	border: 1px solid transparent;
+	outline: none;
+	margin: 1px;
+}
+
+.translation-editor-text:hover {
+	border: 1px solid var(--figma-color-border, rgba(0, 0, 0, 0.1));
+}
+
+.translation-editor-text.editing {
+	outline-offset: 0.39px;
+	border: 1px solid var(--figma-color-border-selected);
+	outline: 1px solid var(--figma-color-border-selected);
+}
+
+.cm-theme .cm-editor {
+	outline: none !important;
+	padding-left: 8px;
+	padding-right: 4px;
+}
+
+.cm-line {
+	padding: 0px !important;
+}
+
+.translation-editor-text * {
+	color: var(--figma-color-text);
+	line-height: 18px;
+
+	/*font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.01em;*/
+}
+
+.translation-editor-disabled .translation-editor-text * {
+	color: var(--figma-color-text-disabled);
+	line-height: 18px;
+
+	/*font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.01em;*/
+}
+
+.translation-editor-input-wrapper ol,
+.translation-editor-input-wrapper ul {
+	/* padding-left: 1.5em; */
+}
+
+.translation-editor-input-wrapper ol > li,
+.translation-editor-input-wrapper ul > li {
+	list-style-type: none;
+}
+
+.translation-editor-input-wrapper ol li:not(.translation-editor-input-wrapper-direction-rtl),
+.translation-editor-input-wrapper ul li:not(.translation-editor-input-wrapper-direction-rtl) {
+	padding-left: 1.5em;
+}
+.translation-editor-input-wrapper ol li {
+	counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+	counter-increment: list-0;
+}
+
+.translation-editor-input-wrapper li:not(.translation-editor-input-wrapper-rtl)::before {
+	margin-left: -1.5em;
+	margin-right: 0.3em;
+	text-align: right;
+}
+
+.translation-editor-input-wrapper ol li:before {
+	content: counter(list-0, decimal) ". ";
+}
+.translation-editor-input-wrapper li::before {
+	display: inline-block;
+	white-space: nowrap;
+	width: 1.2em;
+}
+
+.translation-editor-input-wrapper em,
+.translation-editor-input-wrapper em * {
+	font-style: italic;
+}
+
+.translation-editor-input-wrapper strong,
+.translation-editor-input-wrapper strong * {
+	font-weight: 800;
+}
+
+.cm-theme {
+}
+.cm-theme .cm-selectionLayer {
+	z-index: -1 !important;
+}
+
+.translation-editor-input-wrapper .cm-theme .cm-scroller {
+	/* background-color: var(--figma-color-bg);*/
+}
+
+.ql-placeholder-group {
+	margin: 7px 12px 7px 0px;
+}
+
+ph {
+	cursor: pointer;
+	color: var(--figma-color-text-component) !important;
+	border-radius: 7px;
+	padding: 1 6.55px;
+	background-color: var(--figma-color-bg-component-tertiary);
+	border-color: transparent;
+	margin-right: 1px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+ph:hover {
+	border-color: var(--color-border-component-hover, #a094e6);
+}
+
+ph::selection {
+	background-color: transparent;
+}
+
+.placholder-container.selected {
+	border: 1px solid blue;
+	border-radius: 7px;
+	padding: 1 6.55px;
+	background-color: blue;
+	margin-right: 1px;
+}
+
+.placholder-container {
+	border: 1px solid blue;
+	border-radius: 7px;
+	padding: 1 6.55px;
+	background-color: lightblue;
+	margin-right: 1px;
+}
+
+.placholder-argument-position {
+	padding-left: 5px;
+	padding-right: 2px;
+}
+
+.placholder-argument-position-match {
+}
+
+.placholder-argument-position-missmatch {
+	color: red;
+}
+
+.placholder-argument-position-derived {
+	display: none;
+}
+
+.placholder-container:hover .placholder-argument-position-derived {
+	display: inherit;
+	color: grey;
+}
+
+.placholder-argument-position-spacer {
+	display: none;
+}
+
+.placholder-argument-position-spacer {
+	padding: 0px 2px;
+}
+
+div.translation-editor-scrollbar-overlay {
+	position: relative;
+	overflow: visible;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+pre.ql-container {
+	height: unset;
+}
+
+div.ql-editor {
+	position: unset;
+	top: unset;
+	bottom: unset;
+	left: unset;
+	right: unset;
+	overflow: visible;
+}
+
+.ql-container {
+	white-space: pre-wrap;
+	/* overflow: hidden; */
+}

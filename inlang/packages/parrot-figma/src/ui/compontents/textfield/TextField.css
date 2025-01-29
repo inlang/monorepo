@@ -1,0 +1,122 @@
+.text-field-text {
+	flex-grow: 1;
+	position: relative;
+	border: 1px solid transparent;
+	border-radius: var(--border-radius-small);
+}
+
+.text-field-text.editing {
+	border-color: var(--figma-color-border-brand-strong);
+}
+
+.text-field-text .missing {
+	color: var(--figma-color-text-danger);
+}
+
+.skipped .translation-editor-text p {
+	color: var(--figma-color-text-warning);
+}
+.translation-editor-text a {
+	text-decoration: inherit !important;
+}
+
+.missing.translation {
+	color: var(--figma-color-text-danger);
+}
+
+.text-field-text:hover {
+	border-color: var(--figma-color-border);
+}
+
+.text-field-text p {
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	display: inherit;
+	margin-block-start: inherit;
+	margin-block-end: inherit;
+	margin-inline-start: inherit;
+	margin-inline-end: inherit;
+}
+
+.text-field-text p.placeholder {
+	color: var(--figma-color-text-disabled);
+}
+
+.text-field-text input {
+	position: absolute;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+
+	border: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+
+	outline-offset: -2px;
+	resize: none;
+	color: var(--figma-color-text);
+	background-color: var(--figma-color-bg);
+	font-family: "Inter", sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 11px;
+	line-height: 14px;
+	letter-spacing: 0.01em;
+}
+
+.text-field-text.icon-right:hover input {
+	padding-right: 26px;
+}
+.text-field-text.icon-right:hover p {
+	padding-right: 26px;
+}
+
+.text-field-text.icon-right.editing input {
+	padding-right: 26px;
+}
+.text-field-text.icon-right.editing p {
+	padding-right: 26px;
+}
+
+.text-field-text:hover .svg-container.right:hover {
+	background-color: red;
+}
+
+.text-field-text:hover .svg-container.right {
+	visibility: visible;
+}
+
+.text-field-text.icon-left input {
+	padding-left: 26px;
+	padding-right: 26px;
+}
+.text-field-text.icon-left p {
+	padding-left: 26px;
+	padding-right: 26px;
+}
+
+.text-field-text .svg-container {
+	position: absolute;
+	left: 5px;
+	top: 7px;
+	width: 12px;
+	height: 12px;
+}
+
+.text-field-text .svg-container.right {
+	position: absolute;
+	visibility: hidden;
+	right: 5px;
+	left: unset;
+	top: 7px;
+	width: 12px;
+	height: 12px;
+}
+
+.text-field-text .svg-container.right.unlinked-svg {
+	width: 7px;
+	right: 7px;
+}

@@ -1,0 +1,284 @@
+.available-language {
+	display: flex;
+}
+
+.available-language .svg-container {
+	align-self: center;
+}
+
+.available-language .language {
+	align-self: center;
+	padding-left: 8px;
+}
+
+.choose-language-control {
+	margin-right: 8px;
+	margin-left: 8px;
+}
+
+.choosen-languages {
+	display: grid;
+	grid-template-columns: auto 2fr auto;
+	width: 100%;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	margin-left:;
+}
+
+.choosen-language-control .change-control {
+	display: flex;
+	align-items: flex-start;
+}
+
+.choosen-language-control .svg-container {
+	margin-left: 25px;
+	margin-right: 6px;
+	margin-top: 8px;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 15px;
+	width: 15px;
+	height: 15px;
+}
+
+.language-name {
+	background-color: var(--figma-color-bg);
+	border-color: var(--figma-color-border);
+	border-style: solid;
+	border-radius: 4px;
+	margin-top: 2px;
+	margin-right: auto;
+	margin-bottom: 2px;
+	margin-left: 2px;
+
+	align-items: center;
+	padding-left: 6px;
+	padding-right: 6px;
+	display: flex;
+	height: 24px;
+}
+
+.language-name-wrapper {
+	display: flex;
+}
+
+.choosen-language-change {
+	line-height: 16px;
+	margin-right: 15px;
+	padding: 8px;
+	color: var(--figma-color-text-brand);
+}
+.language-import-action {
+	margin-right: 15px;
+	padding: 8px;
+	color: var(--figma-color-text-brand);
+	margin-left: auto;
+}
+.language-summary {
+	margin-right: 15px;
+	padding: 8px;
+}
+.setup-header {
+	display: flex;
+}
+.setup-header-title {
+	margin-left: 8px;
+	padding: 8px;
+	font-size: 11px;
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 16px;
+	letter-spacing: 0.055px;
+	display: flex;
+}
+.setup-text {
+	margin-left: 8px;
+	padding-left: 8px;
+	padding-bottom: 16px;
+	font-size: 11px;
+	font-family: Inter;
+	font-style: normal;
+	line-height: 16px;
+	letter-spacing: 0.055px;
+}
+
+.setup-baselanguage-select {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+div.react-select__single-value {
+	color: var(--figma-color-text-disabled);
+}
+
+input.react-select__input {
+	color: var(--figma-color-text) !important;
+}
+
+.react-select__control::before {
+	-webkit-mask-image: url(../../assets/world.svg);
+	mask-image: url(../../assets/world.svg);
+	mask-size: 15px;
+	-webkit-mask-size: 15px;
+	background-color: var(--figma-color-icon);
+	content: " ";
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	margin-left: 7.5px;
+	margin-top: 7.5px;
+}
+
+.view .react-select__control {
+	margin-left: 16.5px;
+	margin-right: 16px;
+	outline-offset: 0.39px;
+	border: 1px solid transparent;
+	outline: 1px solid var(--figma-color-border-selected);
+	background-color: var(--figma-color-bg);
+	border-radius: 2px;
+	min-height: 32px;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.view .react-select__menu {
+	width: calc(100% - 32px);
+
+	margin-left: 16px;
+	margin-right: 16px;
+	border-radius: 2px;
+	margin-top: 0px;
+	margin-bottom: 16px;
+	box-shadow: none;
+	color: var(--figma-color-text-onbrand);
+	background-color: var(--figma-color-bg-menu-hover);
+}
+
+.view .react-select__menu-list {
+	max-height: 180px;
+}
+
+.view .react-select__option {
+	display: flex;
+}
+
+.view .react-select__option--is-disabled {
+	background-color: transparent !important;
+}
+
+.view .react-select__option--is-disabled .svg-container {
+	background-color: var(--figma-color-icon-onbrand-tertiary) !important;
+}
+
+.view .react-select__option--is-selected {
+	background-color: transparent;
+}
+
+.view .react-select__option--is-focused {
+	background-color: var(--figma-color-bg-brand-hover);
+}
+
+.view .react-select__option.react-select__option--is-selected .svg-container {
+	background-color: var(--figma-color-icon-onbrand);
+}
+
+.view .react-select__option .svg-container {
+	width: 10px;
+	height: 7px;
+	margin-top: 4px;
+	margin-right: 8px;
+	margin-left: 0px;
+	background-color: transparent;
+}
+
+div.react-select__multi-value {
+	display: flex;
+	align-items: center;
+	height: 24px;
+
+	background-color: var(--figma-color-bg);
+	border-color: var(--figma-color-border);
+	border-style: solid;
+	border-radius: 4px;
+}
+
+.view .react-select__multi-value__label {
+	font-size: inherit;
+	color: inherit;
+}
+
+.view .react-select__remove_language:hover {
+	background-color: var(--figma-color-icon);
+}
+
+.view .react-select__remove_language {
+	width: 18px;
+	height: 18px;
+	flex: 0 0 16px;
+	line-height: 16px;
+	margin-left: 3px;
+	background-color: var(--figma-color-icon-tertiary);
+}
+
+.view .react-select__indicator-separator {
+	visibility: hidden;
+}
+.view .react-select__dropdown_indicator {
+	margin: 8px;
+}
+
+.view .react-select__multi-value__remove:hover {
+	color: inherit;
+	background-color: inherit;
+}
+
+.view .react-select__input-container {
+	flex: 0;
+}
+
+.view .react-select__value-container {
+	flex: inherit;
+	max-width: calc(100% - 50px);
+}
+
+.view .single-value .react-select__value-container {
+	margin-top: 3px;
+}
+
+.view .react-select__indicators {
+	margin-left: -20px;
+}
+
+.view .react-select__indicators {
+	margin-left: auto;
+}
+
+.view .react-select__placeholder {
+	margin-right: 8px;
+	margin-top: 6px;
+}
+
+.view .single-value .react-select__placeholder {
+	margin-right: 8px;
+	margin-top: 0px;
+}
+
+.no-base-language .needs-base-language {
+	color: var(--figma-color-text-disabled);
+}
+
+.no-base-language .needs-base-language * {
+	color: var(--figma-color-text-disabled);
+}
+
+.no-base-language .needs-base-language .caret-svg {
+	background-color: var(--figma-color-icon-disabled);
+}
+
+.no-base-language .needs-base-language .react-select__control::before {
+	background-color: var(--figma-color-icon-disabled);
+}

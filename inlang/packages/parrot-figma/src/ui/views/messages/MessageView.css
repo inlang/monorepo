@@ -1,0 +1,308 @@
+.message-view {
+	height: 100%;
+	flex-direction: column;
+	height: 100%;
+}
+
+.message-filter {
+	display: flex;
+}
+
+.message-list {
+	flex-grow: 1;
+}
+
+.message-filter-search-input {
+	outline: none;
+	border: none;
+	height: 100%;
+	width: 100%;
+	height: 22px;
+	box-sizing: border-box;
+	flex: 1;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	padding: 0 0px 0 24px;
+	border: 1px solid var(--figma-color-border, rgba(0, 0, 0, 0.1));
+	border-radius: 2px;
+	margin-top: 1px;
+	margin-bottom: 2px;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+.message-filter-search-input:focus {
+	outline-offset: 0.39px;
+	border: 1px solid var(--figma-color-border-selected);
+	outline: 1px solid var(--figma-color-border-selected);
+}
+
+.message-filter-search {
+	position: sticky;
+	z-index: 10;
+	top: 0;
+	box-sizing: border-box;
+	margin-right: 8px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	background-color: var(--figma-color-bg);
+	color: var(--figma-color-text);
+	fill: var(--figma-color-text);
+}
+
+.message-filter-search .svg-container {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+}
+
+.message-group {
+	position: relative;
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-header {
+	background-color: var(--figma-color-bg);
+}
+
+.message-group-focused .message-group-header {
+	background-color: var(--figma-color-bg-selected);
+}
+
+.message-group-selected .message-group-header {
+	background-color: var(--figma-color-bg-selected);
+}
+
+/* .message-group-header-wrapper {
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+} */
+
+.message-group-header {
+	/* background-color: blue; */
+	align-items: center;
+	display: flex;
+	height: 32px;
+	position: sticky;
+	top: 0px;
+	z-index: 2;
+	background-color: var(--figma-color-bg);
+}
+
+.message-group-header-sticky-border {
+	background-color: var(--figma-color-border);
+	align-items: center;
+	display: flex;
+	height: 32px;
+	position: sticky;
+	top: 1px;
+	z-index: 1;
+	margin-top: -32px;
+}
+
+.message-group-header-element-symbol {
+	width: 14px;
+	height: 24px;
+	display: flex;
+	justify-content: center;
+	flex-shrink: 0;
+	align-items: center;
+}
+
+.message-group-header-element-symbol .svg-container {
+	width: 24px;
+	height: 24px;
+	background-color: var(--figma-color-icon-component-pressed);
+}
+
+.message-group-hovered:not(.message-group-focused)::after {
+	content: "";
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: transparent;
+	border: 1px solid var(--figma-color-border-component);
+	pointer-events: none;
+}
+
+.message-group-hovered .message-group-header::before {
+	content: "";
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	border-top: 1px solid var(--figma-color-border-component);
+	pointer-events: none;
+}
+
+.message-group-header-name {
+	user-select: all;
+	font-weight: 600;
+	padding-left: 8px;
+}
+
+.message-group-variant {
+	display: flex;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.message-group-variant .language-tag {
+	background-color: rgb(134, 56, 229, 0.14);
+	color: rgb(134, 56, 229);
+	border-radius: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 6px;
+}
+
+.message-group-selected .message-group-variant {
+	background-color: var(--figma-color-bg-selected-secondary);
+}
+
+.message-group-focused .message-group-variant {
+	background-color: var(--figma-color-bg-selected-secondary);
+}
+.message-group-variant-focused {
+	background-color: var(--figma-color-bg-selected-secondary);
+}
+
+.message-group-variant-wrapper {
+	position: relative;
+}
+
+/* --figma-color-bg-selected */
+/* --figma-color-bg-selected-secondary */
+
+.message-group-variant-wrapper:hover::after {
+	border-color: var(--figma-color-border-component);
+}
+
+.message-group-variant-wrapper::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: transparent;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	pointer-events: none;
+}
+
+.message-group-variant-column-language {
+	min-width: 70px;
+	flex-grow: 0;
+	padding-left: 8px;
+	padding-right: 8px;
+	font-feature-settings:
+		"ss02" on,
+		"liga" on,
+		"calt" on;
+	line-height: 32px;
+	height: 32px;
+	white-space: pre;
+	text-align: left;
+}
+
+.message-group-variant-column-translation {
+	flex-grow: 1;
+	padding-top: 1px;
+}
+
+.ref-language .message-group-variant {
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-variant-focused .message-group-variant {
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-variant-focused .message-group-variant {
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-variant:hover {
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-variant {
+	color: var(--figma-color-icon-component-secondary);
+}
+
+.message-group-variant:hover
+	.message-group-variant-column-translation
+	.translation-editor-text
+	div
+	* {
+	color: var(--figma-color-icon-component);
+}
+
+.ref-language .message-group-variant-column-translation .translation-editor-text div * {
+	color: var(--figma-color-icon-component);
+}
+
+.message-group-variant-column-translation .translation-editor-text div * {
+	color: var(--figma-color-icon-component-secondary);
+}
+
+.message-group-variant-wrapper
+	.message-group-variant-column-translation
+	.translation-editor-text.editing
+	div
+	* {
+	color: var(--figma-color-text);
+	white-space: nowrap;
+}
+
+.message-group-header-actions {
+	display: flex;
+}
+
+.message-group-header-actions .button .svg-container {
+	width: 32px;
+	height: 32px;
+}
+
+.message-group.message-group-hovered
+	.message-group-header-actions
+	.button.iconWrapper
+	.svg-container {
+	background-color: var(--figma-color-icon-component-pressed);
+}
+
+.message-group .message-group-header-actions .button.iconWrapper .svg-container {
+	background-color: transparent;
+}
+
+.message-group-header-actions .button.layerIcon {
+	width: 24px;
+	height: 24px;
+	display: flex;
+	justify-content: center;
+	flex-shrink: 0;
+	align-items: center;
+	position: relative;
+	border: 1px solid transparent;
+	border-radius: 2px;
+}
+
+.message-group-header-actions .button.iconWrapper:hover {
+	background-color: var(--figma-color-bg-hover);
+}
+
+/** 
+refLanguage - bold
+hover - bold
+focus - bold
+**/

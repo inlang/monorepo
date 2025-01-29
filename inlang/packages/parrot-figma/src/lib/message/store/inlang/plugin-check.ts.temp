@@ -1,0 +1,75 @@
+import { ProjectSettings, loadProject, getVariant } from '@inlang/sdk';
+import { createNodeishMemoryFs } from '@inlang/sdk/test-utilities';
+
+(async () => {
+  // creating a virtual filesystem to store the project file
+  const fs = createNodeishMemoryFs();
+
+  // creating a project file
+  const config = {
+    sourceLanguageTag: 'en',
+    modules: ['./plugin.js'],
+    languageTags: ['en', 'de'],
+  } satisfies ProjectSettings;
+
+  // writing the project file to the virtual filesystem
+  await fs.writeFile('/project.inlang.json', JSON.stringify(config));
+
+  // opening the project file and loading the plugin
+  const inlang = await loadProject({
+    nodeishFs: fs,
+    settingsFilePath: '/project.inlang.json',
+    // simulate the import function that the SDK uses
+    // to inject the plugin into the project
+    _import: async () => {
+      console.log('import called');
+      return import('./FigmaPlugin.js');
+    },
+  });
+
+  // expect(inlang.errors()).toEqual([])
+
+  // expect(inlang.installed.plugins()[0]?.meta.id).toBe(pluginId)
+  console.log(inlang.errors());
+  console.log(inlang.query.messages.get({ where: { id: 'this-is-a-test-message' } }));
+
+  // inlang.query.messages.upsert({where: {id: 'welcome_msg'}};
+  /* inlang.query.messages.create({ data: {
+		id: 'welcome_msg',
+		selectors: [],
+		variants:
+		[{
+			languageTag: 'de',
+			match: {},
+			pattern:[
+							{
+								type: "Text",
+								value: 'Hello ',
+							},{
+								type: "VariableReference",
+								name: 'user_name',
+								// TODO type not yet supported
+							}, {
+								type: "Text",
+								value: ' wie gehts',
+							},
+					  ],
+		}]}})
+
+		const message = inlang.query.messages.get({ where: { id: "this-is-a-test-message" } });
+		const variant = getVariant(message, {where: {
+			languageTag: "en",
+			selectors: { gender: "female", guestOther: "1" },
+		}});
+		variant?.pattern
+*/
+  // TODO from html to pattern and the other way arround
+  // from editor to ast:
+  // https://github.com/inlang/monorepo/blob/b9f8fd48b656cd9e30994b98b2d5efc1a62f1653/inlang/source-code/website/src/pages/editor/%40host/%40owner/%40repository/helper/parse.ts#L7
+
+  // from pattern to editor (text + variables)
+  // https://github.com/inlang/monorepo/blob/b9f8fd48b656cd9e30994b98b2d5efc1a62f1653/inlang/source-code/website/src/pages/editor/%40host/%40owner/%40repository/helper/parse.ts#L54C14-L54C30
+
+  // Search:
+  // https://github.com/inlang/monorepo/blob/main/inlang/source-code/website/src/pages/editor/@host/@owner/@repository/helper/showFilteredMessage.ts#L18-L30
+})();

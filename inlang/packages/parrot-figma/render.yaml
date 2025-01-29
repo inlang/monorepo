@@ -1,0 +1,30 @@
+previewsEnabled: false
+services: 
+ - name: parrot-figma
+   type: web
+   runtime: static
+   autoDeploy: true
+   # TODO replace with main when moved to mono
+   branch: ci-cd-monorepo
+   # TODO change to relative path in mono repo
+   staticPublishPath: ./dist
+   # TODO add filter for parrot in mono repo:
+   # buildCommand: pnpm install && pnpm run --filter csv-app... build
+   buildCommand: pnpm install && pnpm run build
+   # TODO add build filter for parrot in mono repo:
+   # buildFilter:
+   #   paths:
+   #     - packages/csv-app/**
+   envVars:
+     - fromGroup: production
+   headers:
+    # add headers for cors
+    - path: "/*"
+      name: Access-Control-Allow-Origin
+      value: "*"
+    - path: "/*"
+      name: Access-Control-Allow-Methods
+      value: GET, OPTIONS
+    - path: "/*"
+      name: Access-Control-Allow-Headers
+      value: Content-Type

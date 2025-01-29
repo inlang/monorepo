@@ -1,0 +1,12 @@
+node_modules
+settings.json
+yarn-error.log
+dist
+cypress/screenshots
+cypress/videos
+.env
+.env.production
+package
+.idea
+storybook-static
+coverage
