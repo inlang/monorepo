@@ -23,6 +23,9 @@ vi.mock("vscode", () => ({
 	commands: {
 		executeCommand: vi.fn(),
 	},
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 vi.mock("../state.js", () => ({

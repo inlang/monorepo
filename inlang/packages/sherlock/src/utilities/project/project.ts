@@ -103,8 +103,6 @@ export async function handleTreeSelection(args: {
 			preprocessPluginBeforeImport: transpileToCjs,
 		})
 
-		console.log(inlangProject)
-
 		setState({
 			...state(),
 			project: inlangProject,

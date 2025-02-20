@@ -140,7 +140,7 @@ class SerializeJsonbTransformer extends OperationNodeTransformer {
 							({
 								kind: "ValueNode",
 								value,
-							}) as ValueNode
+							} as ValueNode)
 					),
 				} as ValueListNode;
 			}),

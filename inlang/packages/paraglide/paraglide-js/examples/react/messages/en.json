@@ -1,5 +1,15 @@
 {
+	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"jojo_mountain_day": {
+		"declarations": [
+			"input username",
+			"input platform",
+			"input userGender"
+		],
+		"selectors": [
+			"platform",
+			"userGender"
+		],
 		"match": {
 			"platform=android, userGender=male": "{username} has to download the app on his phone from the Google Play Store.",
 			"platform=android, userGender=female": "{username} has to download the app on her phone from the Google Play Store.",

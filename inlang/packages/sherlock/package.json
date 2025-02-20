@@ -219,23 +219,27 @@
 		}
 	},
 	"scripts": {
-		"_build": "tsc --noEmit && node ./build.js",
+		"build": "pnpm run editor:build && node ./build.js",
 		"dev": "DEV=true node ./build.js",
 		"package": "pnpm vsce package --no-dependencies",
 		"publish": "pnpm vsce publish --no-dependencies",
 		"publish:open-vsx": "node publish-openvsx.js",
 		"vscode:prepublish": "npm run build",
+		"---- EDITOR ----------------------------------------------------------": "",
+		"editor:build": "cd src/utilities/editor/sherlock-editor-app && pnpm run build",
+		"editor:dev": "cd src/utilities/editor/sherlock-editor-app && pnpm run dev",
 		"---- TEST ----------------------------------------------------------": "",
-		"_pretest": "node ./build.js",
-		"_test": "tsc --noEmit && vitest run",
-		"_test:watch": "vitest",
-		"_test:e2e": "npm run pretest && wdio run ./test/wdio.conf.ts",
+		"pretest": "node ./build.js",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:e2e": "npm run pretest && wdio run ./test/wdio.conf.ts",
 		"---- LINT ----------------------------------------------------------": "",
 		"format": "prettier ./src --write",
 		"---- OTHER ----------------------------------------------------------": "",
 		"clean": "rm -rf ./dist ./node_modules"
 	},
 	"dependencies": {
+		"@eliaspourquoi/sqlite-node-wasm": "3.46.0-build2",
 		"@inlang/editor-component": "workspace:*",
 		"@inlang/recommend-sherlock": "workspace:*",
 		"@inlang/rpc": "workspace:*",
@@ -250,6 +254,7 @@
 		"prettier": "^3.3.3",
 		"require-from-string": "^2.0.2",
 		"throttle-debounce": "^5.0.0",
+		"uuid": "^11.0.5",
 		"vitest": "^2.1.8"
 	},
 	"devDependencies": {

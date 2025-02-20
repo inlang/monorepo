@@ -21,6 +21,9 @@ vi.mock("vscode", () => ({
 		parse: vi.fn(),
 	},
 	EventEmitter: vi.fn(),
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 vi.mock("../utilities/settings/getGitOrigin.js", () => ({

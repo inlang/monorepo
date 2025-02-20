@@ -31,7 +31,7 @@ export const createMessageV1 = (
 								type: "Text",
 								value: patterns,
 							},
-						]
+					  ]
 					: patterns,
 		})),
-	}) satisfies MessageV1;
+	} satisfies MessageV1);

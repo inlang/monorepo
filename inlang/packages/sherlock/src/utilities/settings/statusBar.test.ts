@@ -30,6 +30,9 @@ vi.mock("vscode", () => ({
 	EventEmitter: vi.fn().mockImplementation(() => ({
 		event: vi.fn(),
 	})),
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 vi.mock("../state", () => ({

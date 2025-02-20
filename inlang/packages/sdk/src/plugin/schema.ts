@@ -12,7 +12,7 @@ import type {
 import type { ExportFile, ImportFile } from "../project/api.js";
 
 export type InlangPlugin<
-	ExternalSettings extends Record<string, any> | unknown = unknown,
+	ExternalSettings extends Record<string, any> | unknown = unknown
 > = {
 	/**
 	 * @deprecated Use `key` instead.

@@ -19,6 +19,9 @@ vi.mock("vscode", () => ({
 	Uri: {
 		file: vi.fn(),
 	},
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 vi.mock("node:path", () => ({

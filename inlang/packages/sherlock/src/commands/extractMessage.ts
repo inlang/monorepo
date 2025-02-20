@@ -5,7 +5,13 @@ import { telemetry } from "../services/telemetry/index.js"
 import { CONFIGURATION } from "../configuration.js"
 import { isQuoted, stripQuotes } from "../utilities/messages/isQuoted.js"
 import { getSetting } from "../utilities/settings/index.js"
-import { humanId, type IdeExtensionConfig } from "@inlang/sdk"
+import {
+	humanId,
+	upsertBundleNested,
+	type IdeExtensionConfig,
+	type NewBundleNested,
+} from "@inlang/sdk"
+import { v4 as uuidv4 } from "uuid"
 
 /**
  * Helps the user to extract messages from the active text editor.
@@ -103,39 +109,34 @@ export const extractMessageCommand = {
 			return msg("Couldn't find choosen extract option.", "warn", "notification")
 		}
 
-		try {
-			await state()
-				.project.db.transaction()
-				.execute(async (trx) => {
-					await trx
-						.insertInto("bundle")
-						.values({
-							id: bundleId,
-						})
-						.execute()
-
-					const message = await trx
-						.insertInto("message")
-						.values({
-							bundleId: selectedExtractOption.bundleId,
-							locale: baseLocale,
-						})
-						.returningAll()
-						.executeTakeFirstOrThrow()
-
-					await trx
-						.insertInto("variant")
-						.values({
-							messageId: message.id,
+		const messageId = uuidv4()
+		const bundle: NewBundleNested = {
+			id: bundleId,
+			declarations: [],
+			messages: [
+				{
+					bundleId,
+					id: messageId,
+					locale: baseLocale,
+					selectors: [],
+					variants: [
+						{
+							messageId,
+							matches: [],
 							pattern: [
 								{
 									type: "text",
 									value: isQuoted(messageValue) ? stripQuotes(messageValue) : messageValue,
 								},
 							],
-						})
-						.execute()
-				})
+						},
+					],
+				},
+			],
+		}
+
+		try {
+			await upsertBundleNested(state().project.db, bundle)
 
 			await textEditor.edit((editor) => {
 				editor.replace(textEditor.selection, preparedExtractOption)

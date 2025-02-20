@@ -2,9 +2,10 @@ import { state } from "../utilities/state.js"
 import { msg } from "../utilities/messages/msg.js"
 import { commands, window } from "vscode"
 import { telemetry } from "../services/telemetry/index.js"
-import { humanId } from "@inlang/sdk"
+import { humanId, upsertBundleNested, type NewBundleNested } from "@inlang/sdk"
 import { CONFIGURATION } from "../configuration.js"
 import { getSetting } from "../utilities/settings/index.js"
+import { v4 as uuidv4 } from "uuid"
 
 /**
  * Helps the user to create messages by prompting for the message content.
@@ -39,26 +40,34 @@ export const createMessageCommand = {
 			return
 		}
 
-		try {
-			await state()
-				.project.db.transaction()
-				.execute(async (trx) => {
-					await trx
-						.insertInto("bundle")
-						.values({
-							id: bundleId,
-						})
-						.execute()
+		const messageId = uuidv4()
+		const bundle: NewBundleNested = {
+			id: bundleId,
+			declarations: [],
+			messages: [
+				{
+					bundleId,
+					id: messageId,
+					locale: baseLocale,
+					selectors: [],
+					variants: [
+						{
+							messageId,
+							matches: [],
+							pattern: [
+								{
+									type: "text",
+									value: messageValue,
+								},
+							],
+						},
+					],
+				},
+			],
+		}
 
-					return await trx
-						.insertInto("message")
-						.values({
-							bundleId,
-							locale: baseLocale,
-						})
-						.returningAll()
-						.execute()
-				})
+		try {
+			await upsertBundleNested(state().project?.db, bundle)
 
 			// Emit event to notify that a message was created
 			CONFIGURATION.EVENTS.ON_DID_CREATE_MESSAGE.fire()

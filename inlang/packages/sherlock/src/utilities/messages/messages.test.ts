@@ -32,6 +32,18 @@ vi.mock("vscode", () => ({
 		cspSource: "cspSource",
 	})),
 	EventEmitter: vi.fn(),
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
+	extensions: {
+		getExtension: vi.fn(() => ({
+			exports: {
+				context: {
+					extensionUri: { fsPath: "/mocked/extension/path" },
+				},
+			},
+		})),
+	},
 }))
 
 vi.mock("../state.js", () => ({

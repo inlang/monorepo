@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+* {
+	background-color: var(--vscode-editor-background);
+	color: var(--vscode-editor-foreground);
+}
+
+.inlang-pattern-editor-contenteditable {
+	background-color: var(--vscode-editor-background) !important;
+	color: var(--vscode-editor-foreground) !important;
+}
+
+.inlang-pattern-editor-contenteditable:hover {
+	background-color: var(--vscode-editor-hoverBackground) !important;
+}
+
+.inlang-pattern-editor-placeholder {
+	color: var(--vscode-editor-placeholderForeground) !important;
+}
+
+inlang-variant {
+	--sl-input-border-color: var(--vscode-input-border);
+	--sl-input-background-color: var(--vscode-input-background);
+	--sl-input-background-color-focus: var(--vscode-input-background);
+	--sl-input-background-color-hover: var(--vscode-input-hoverBackground);
+	--sl-input-border-color-hover: var(--vscode-input-hoverBorder);
+	--sl-input-color: var(--vscode-input-foreground);
+	--sl-input-color-focus: var(--vscode-input-foreground);
+	--sl-input-color-hover: var(--vscode-input-foreground);
+}
+
+inlang-message {
+	--sl-input-border-color: var(--vscode-input-border);
+	--sl-input-background-color: var(--vscode-input-background);
+	--sl-input-background-color-focus: var(--vscode-input-background);
+	--sl-input-background-color-hover: var(--vscode-input-hoverBackground);
+	--sl-input-border-color-hover: var(--vscode-input-hoverBorder);
+	--sl-input-color: var(--vscode-input-foreground);
+	--sl-input-color-focus: var(--vscode-input-foreground);
+	--sl-input-color-hover: var(--vscode-input-foreground);
+	--sl-input-background-color-disabled: var(--vscode-input-disabledBackground);
+	--sl-input-placeholder-color: var(--vscode-input-placeholderForeground);
+}
+
+inlang-bundle {
+	--sl-input-border-color: var(--vscode-input-border);
+	--sl-input-background-color: var(--vscode-input-background);
+	--sl-input-background-color-focus: var(--vscode-input-background);
+	--sl-input-background-color-hover: var(--vscode-input-hoverBackground);
+	--sl-input-border-color-hover: var(--vscode-input-hoverBorder);
+	--sl-input-color: var(--vscode-input-foreground);
+	--sl-input-color-focus: var(--vscode-input-foreground);
+	--sl-input-color-hover: var(--vscode-input-foreground);
+	--sl-input-background-color-disabled: var(--vscode-input-disabledBackground);
+	--sl-input-placeholder-color: var(--vscode-input-placeholderForeground);
+}
+
+inlang-bundle-action {
+	--sl-button-border-color: var(--vscode-button-border);
+	--sl-button-background-color: var(--vscode-button-background);
+	--sl-button-background-color-hover: var(--vscode-button-hoverBackground);
+	--sl-button-background-color-active: var(--vscode-button-activeBackground);
+	--sl-button-color: var(--vscode-button-foreground);
+	--sl-button-color-hover: var(--vscode-button-foreground);
+	--sl-button-color-active: var(--vscode-button-foreground);
+	--sl-menu-background-color: var(--vscode-dropdown-background);
+	--sl-menu-border-color: var(--vscode-dropdown-border);
+	--sl-menu-color: var(--vscode-dropdown-foreground);
+	--sl-menu-box-shadow: var(--vscode-dropdown-shadow);
+	--sl-menu-item-background-color: var(--vscode-dropdown-background);
+	--sl-menu-item-border-color: var(--vscode-dropdown-border);
+	--sl-menu-item-color: var(--vscode-dropdown-foreground);
+	--sl-menu-item-hover-background-color: var(--vscode-dropdown-hoverBackground);
+	--sl-menu-item-hover-color: var(--vscode-dropdown-hoverForeground);
+}
+
+inlang-bundle::part(base) {
+	background-color: var(--vscode-editor-background);
+}
+
+inlang-bundle::slotted(bundle-action):hover {
+	background-color: var(--vscode-editor-hoverBackground);
+}
+
+sl-menu {
+	--sl-menu-background-color: var(--vscode-dropdown-background);
+	--sl-menu-border-color: var(--vscode-dropdown-border);
+	--sl-menu-color: var(--vscode-dropdown-foreground);
+	--sl-menu-box-shadow: var(--vscode-dropdown-shadow);
+	background-color: var(--sl-menu-background-color);
+	border: 1px solid var(--sl-menu-border-color);
+	color: var(--sl-menu-color);
+	box-shadow: var(--sl-menu-box-shadow);
+}
+
+sl-menu-item {
+	--sl-menu-item-background-color: var(--vscode-dropdown-background);
+	--sl-menu-item-border-color: var(--vscode-dropdown-border);
+	--sl-menu-item-color: var(--vscode-dropdown-foreground);
+	--sl-menu-item-hover-background-color: var(--vscode-dropdown-hoverBackground);
+	--sl-menu-item-hover-color: var(--vscode-dropdown-hoverForeground);
+	background-color: var(--sl-menu-item-background-color);
+	border-bottom: 1px solid var(--sl-menu-item-border-color);
+	color: var(--sl-menu-item-color);
+}
+
+sl-menu-item:hover {
+	background-color: var(--sl-menu-item-hover-background-color);
+	color: var(--sl-menu-item-hover-color);
+}
+
+sl-menu-item:focus {
+	background-color: var(--sl-menu-item-hover-background-color);
+	color: var(--sl-menu-item-hover-color);
+}
+
+sl-menu-item:focus-visible {
+	background-color: var(--sl-menu-item-hover-background-color);
+	color: var(--sl-menu-item-hover-color);
+}
+
+sl-menu-item::part(label) {
+	color: var(--sl-menu-item-color);
+}
+
+sl-menu-item:hover::part(label) {
+	color: var(--sl-menu-item-hover-color);
+}
+
+.add-selector-dialog::part(panel) {
+	padding: 2rem;
+	background-color: var(--vscode-editor-background);
+	color: var(--vscode-editor-foreground);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.add-selector-dialog::part(title) {
+	font-size: 1rem;
+}
+
+inlang-add-selector {
+	--sl-input-border-color: var(--vscode-input-border);
+	--sl-input-background-color: var(--vscode-input-background);
+	--sl-input-background-color-focus: var(--vscode-input-background);
+	--sl-input-background-color-hover: var(--vscode-input-hoverBackground);
+	--sl-input-border-color-hover: var(--vscode-input-hoverBorder);
+	--sl-input-color: var(--vscode-input-foreground);
+	--sl-input-color-focus: var(--vscode-input-foreground);
+	--sl-input-color-hover: var(--vscode-input-foreground);
+}
+
+inlang-add-selector sl-option::part(base) {
+	background-color: var(--vscode-input-background);
+	color: var(--vscode-input-foreground);
+}
+
+inlang-message::part(selector) {
+	background-color: var(--vscode-editor-background);
+	color: var(--vscode-editor-foreground);
+}

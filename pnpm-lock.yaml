@@ -1013,6 +1013,9 @@ importers:
 
   inlang/packages/sherlock:
     dependencies:
+      '@eliaspourquoi/sqlite-node-wasm':
+        specifier: 3.46.0-build2
+        version: 3.46.0-build2
       '@inlang/editor-component':
         specifier: workspace:*
         version: link:../ui-components/editor-component
@@ -1055,6 +1058,9 @@ importers:
       throttle-debounce:
         specifier: ^5.0.0
         version: 5.0.2
+      uuid:
+        specifier: ^11.0.5
+        version: 11.0.5
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@20.16.13)(@vitest/browser@2.1.8)(jsdom@25.0.1)(lightningcss@1.29.1)(msw@2.7.0(@types/node@20.16.13)(typescript@5.3.2))(terser@5.36.0)
@@ -1147,7 +1153,7 @@ importers:
         specifier: ^6.0.0
         version: 6.1.2(webdriverio@8.41.0)
 
-  inlang/packages/sherlock/src/utilities/editor/editor-app:
+  inlang/packages/sherlock/src/utilities/editor/sherlock-editor-app:
     dependencies:
       '@inlang/editor-component':
         specifier: workspace:*
@@ -1155,12 +1161,6 @@ importers:
       '@lit/react':
         specifier: ^1.0.5
         version: 1.0.6(@types/react@19.0.8)
-      '@shoelace-style/shoelace':
-        specifier: ^2.19.1
-        version: 2.19.1(@floating-ui/utils@0.2.9)(@types/react@19.0.8)
-      '@types/vscode-webview':
-        specifier: ^1.57.5
-        version: 1.57.5
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1183,15 +1183,24 @@ importers:
       '@eslint/js':
         specifier: ^9.19.0
         version: 9.19.0
+      '@shoelace-style/shoelace':
+        specifier: ^2.19.1
+        version: 2.19.1(@floating-ui/utils@0.2.9)(@types/react@19.0.8)
+      '@tailwindcss/vite':
+        specifier: ^4.0.6
+        version: 4.0.7(vite@5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0))
       '@types/react':
         specifier: ^19.0.8
         version: 19.0.8
       '@types/react-dom':
         specifier: ^19.0.3
         version: 19.0.3(@types/react@19.0.8)
+      '@types/vscode-webview':
+        specifier: ^1.57.5
+        version: 1.57.5
       '@vitejs/plugin-react':
         specifier: ^4.3.4
-        version: 4.3.4(vite@6.0.11(@types/node@22.10.6)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.36.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: 4.3.4(vite@5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0))
       eslint:
         specifier: ^9.19.0
         version: 9.19.0(jiti@2.4.2)
@@ -1204,6 +1213,9 @@ importers:
       globals:
         specifier: ^15.14.0
         version: 15.14.0
+      tailwindcss:
+        specifier: ^4.0.6
+        version: 4.0.7
       typescript:
         specifier: ~5.7.3
         version: 5.7.3
@@ -1211,8 +1223,8 @@ importers:
         specifier: ^8.22.0
         version: 8.22.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3)
       vite:
-        specifier: ^6.0.11
-        version: 6.0.11(@types/node@22.10.6)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.36.0)(tsx@4.19.2)(yaml@2.7.0)
+        specifier: ^5.3.3
+        version: 5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0)
 
   inlang/packages/telemetry-proxy:
     dependencies:
@@ -3197,6 +3209,10 @@ packages:
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
+
+  '@eliaspourquoi/sqlite-node-wasm@3.46.0-build2':
+    resolution: {integrity: sha512-rywLq6tK0o3A7iTw1fTtu//N/QbSKji7nTOrOmDJ3Ef9MCZtigdTW4OzRvp4H0ezFJicLNVTO1pyGWEveo4RBw==}
+    hasBin: true
 
   '@emmetio/abbreviation@2.3.3':
     resolution: {integrity: sha512-mgv58UrU3rh4YgbE/TzgLQwJ3pFsHHhCLqY20aJq+9comytTXUDNGG/SMtSeMJdkpxgXSXunBGLD8Boka3JyVA==}
@@ -18071,6 +18087,8 @@ snapshots:
 
   '@discoveryjs/json-ext@0.5.7': {}
 
+  '@eliaspourquoi/sqlite-node-wasm@3.46.0-build2': {}
+
   '@emmetio/abbreviation@2.3.3':
     dependencies:
       '@emmetio/scanner': 1.0.4
@@ -18786,7 +18804,7 @@ snapshots:
 
   '@floating-ui/core@1.6.8':
     dependencies:
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/utils': 0.2.9
 
   '@floating-ui/dom@1.6.11':
     dependencies:
@@ -18800,13 +18818,13 @@ snapshots:
 
   '@floating-ui/react-dom@2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@floating-ui/dom': 1.6.11
+      '@floating-ui/dom': 1.6.13
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
   '@floating-ui/react-dom@2.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@floating-ui/dom': 1.6.11
+      '@floating-ui/dom': 1.6.13
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
@@ -19651,6 +19669,21 @@ snapshots:
       - typescript
       - verdaccio
 
+  '@nrwl/js@18.3.5(@babel/traverse@7.26.9)(@types/node@22.10.6)(nx@18.3.5)(typescript@5.7.2)':
+    dependencies:
+      '@nx/js': 18.3.5(@babel/traverse@7.26.9)(@types/node@22.10.6)(nx@18.3.5)(typescript@5.7.2)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - debug
+      - nx
+      - supports-color
+      - typescript
+      - verdaccio
+
   '@nrwl/nx-cloud@16.5.2':
     dependencies:
       nx-cloud: 16.5.2
@@ -19848,7 +19881,7 @@ snapshots:
       '@babel/preset-env': 7.26.0(@babel/core@7.26.0)
       '@babel/preset-typescript': 7.26.0(@babel/core@7.26.0)
       '@babel/runtime': 7.25.7
-      '@nrwl/js': 18.3.5(@babel/traverse@7.26.9)(@types/node@22.10.6)(nx@18.3.5)(typescript@5.4.5)
+      '@nrwl/js': 18.3.5(@babel/traverse@7.26.9)(@types/node@22.10.6)(nx@18.3.5)(typescript@5.7.2)
       '@nx/devkit': 18.3.5(nx@18.3.5)
       '@nx/workspace': 18.3.5
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.7.2)
@@ -22843,6 +22876,14 @@ snapshots:
       tailwindcss: 4.0.7
       vite: 5.4.11(@types/node@20.16.13)(lightningcss@1.29.1)(terser@5.36.0)
 
+  '@tailwindcss/vite@4.0.7(vite@5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0))':
+    dependencies:
+      '@tailwindcss/node': 4.0.7
+      '@tailwindcss/oxide': 4.0.7
+      lightningcss: 1.29.1
+      tailwindcss: 4.0.7
+      vite: 5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0)
+
   '@tanstack/react-virtual@3.10.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@tanstack/virtual-core': 3.10.8
@@ -23745,7 +23786,7 @@ snapshots:
       '@typescript-eslint/types': 8.10.0
       '@typescript-eslint/visitor-keys': 8.10.0
       debug: 4.4.0(supports-color@9.4.0)
-      fast-glob: 3.3.2
+      fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.6.3
@@ -23760,7 +23801,7 @@ snapshots:
       '@typescript-eslint/types': 8.10.0
       '@typescript-eslint/visitor-keys': 8.10.0
       debug: 4.4.0(supports-color@9.4.0)
-      fast-glob: 3.3.2
+      fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.6.3
@@ -23995,6 +24036,17 @@ snapshots:
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
       vite: 5.4.9(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@vitejs/plugin-react@4.3.4(vite@5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0))':
+    dependencies:
+      '@babel/core': 7.26.0
+      '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.0)
+      '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.0)
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.14.2
+      vite: 5.4.11(@types/node@22.10.6)(lightningcss@1.29.1)(terser@5.36.0)
     transitivePeerDependencies:
       - supports-color
 

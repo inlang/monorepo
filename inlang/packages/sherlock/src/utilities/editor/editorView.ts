@@ -1,113 +1,228 @@
 import * as vscode from "vscode"
-import type {
-	CancellationToken,
-	Disposable,
-	Webview,
-	WebviewView,
-	WebviewViewProvider,
-	WebviewViewResolveContext,
-} from "vscode"
+import type { Disposable, WebviewPanel } from "vscode"
 
-import { Extension } from "./helper/Extension.js"
 import { getUri } from "./helper/getUri.js"
 import { getNonce } from "./helper/getNonce.js"
-
-// ---- These imports come from your old code snippet. Update paths to match your project.
 import { state } from "../state.js"
 import { CONFIGURATION } from "../../configuration.js"
 import { getSelectedBundleByBundleIdOrAlias } from "../helper.js"
 import { msg } from "../messages/msg.js"
+import type { ChangeEventDetail } from "@inlang/editor-component"
+import { deleteVariant } from "./helper/deleteVariant.js"
+import { deleteBundleNested } from "./helper/deleteBundleNested.js"
+import { handleUpdateBundle } from "./helper/handleBundleUpdate.js"
+import { createMessage } from "./helper/createMessage.js"
+import { saveProject } from "../../main.js"
+import { createFileSystemMapper } from "../fs/createFileSystemMapper.js"
+import path from "path"
+import fs from "node:fs/promises"
 
-// Example interface (from old snippet) for "updateBundle" messages
-interface UpdateBundleMessage {
+// Same interface as before
+export interface UpdateBundleMessage {
 	command: string
-	bundle: {
-		entityId: string
-		entity: "variant" | "message" // etc.
-		newData?: {
-			id: string
-			messageId: string
-			matches: Array<{ type: string; key: string }>
-			pattern: Array<{ type: string; value?: string }>
-		}
-	}
+	change: ChangeEventDetail
 }
 
 /**
- * The viewType property from the class version:
+ * An ID you can use to differentiate panels in VS Code.
+ * (Doesn't have to match the old 'editorView' if you don't want.)
  */
-export const EDITOR_VIEW_TYPE = "editorView"
+export const EDITOR_PANEL_ID = "editorViewPanel"
 
-export function createEditorView(
-	extensionUri: vscode.Uri,
-	// optionally pass a bundleId if needed, like the old `editorView(args: { bundleId: string })`
-	initialBundleId?: string
-): WebviewViewProvider & {
-	setBundleId: (newBundleId: string) => void
-	getBundleId: () => string | undefined
-	dispose: () => void
-} {
-	// Private, internal variables ("fields") that used to be on the class
-	let view: WebviewView | undefined
+/**
+ * Creates or reveals a regular WebviewPanel (like an editor tab),
+ * instead of a side-view via WebviewViewProvider.
+ *
+ * All your bundle/update logic remains the same.
+ */
+export function editorView(args: { context: vscode.ExtensionContext; initialBundleId: string }) {
+	const { context, initialBundleId } = args
+	const extensionUri = context.extensionUri
+
+	let panel: WebviewPanel | undefined
 	let disposables: Disposable[] = []
 	let bundleId = initialBundleId
 
 	/**
-	 * The method that gets called when the WebviewView becomes visible.
-	 * You must implement this to satisfy `WebviewViewProvider`.
+	 * Opens a new panel if none is open, otherwise reveals the existing one.
 	 */
-	async function resolveWebviewView(
-		webviewView: WebviewView,
-		_context: WebviewViewResolveContext,
-		_token: CancellationToken
-	) {
-		view = webviewView
-
-		view.webview.options = {
-			enableScripts: true,
-			localResourceRoots: [extensionUri],
+	async function createOrShowPanel() {
+		if (panel) {
+			// If we already have a panel, reveal it
+			panel.reveal(vscode.ViewColumn.One)
+			return
 		}
 
-		// Provide initial React-based HTML for the webview
-		view.webview.html = getHtmlForWebview(view.webview)
+		// Otherwise, create a brand-new panel
+		panel = vscode.window.createWebviewPanel(
+			EDITOR_PANEL_ID,
+			`# ${bundleId}`,
+			vscode.ViewColumn.One,
+			{
+				enableScripts: true,
+				localResourceRoots: [extensionUri],
+			}
+		)
 
-		// Listen for messages from the React webview
-		setWebviewMessageListener(view.webview)
+		// Set up disposal
+		panel.onDidDispose(
+			() => {
+				dispose()
+				panel = undefined
+			},
+			null,
+			disposables
+		)
+
+		// Listen to panel and load state when it's visible
+		panel.onDidChangeViewState(
+			async (e) => {
+				if (e.webviewPanel.visible) {
+					panel?.webview.postMessage({
+						command: "change",
+						data: {
+							bundle: await getSelectedBundleByBundleIdOrAlias(bundleId),
+							settings: await state().project?.settings.get(),
+						},
+					})
+				}
+			},
+			null,
+			disposables
+		)
+
+		// Provide the same HTML you had before
+		panel.webview.html = getHtmlForWebview(panel.webview)
+
+		// Set initial data
+		panel.webview.postMessage({
+			command: "change",
+			data: {
+				bundle: await getSelectedBundleByBundleIdOrAlias(bundleId),
+				settings: await state().project?.settings.get(),
+			},
+		})
+
+		// Set up the same message listener logic
+		setWebviewMessageListener(panel.webview)
 	}
 
 	/**
-	 * Cleans up and disposes of webview resources when the view is closed/unmounted.
+	 * The same message handler logic you used in your snippet,
+	 * listening for 'updateBundle' etc.
 	 */
-	function dispose() {
-		while (disposables.length) {
-			const disposable = disposables.pop()
-			if (disposable) {
-				disposable.dispose()
+	function setWebviewMessageListener(webview: vscode.Webview) {
+		const disposable = webview.onDidReceiveMessage(async (message: any) => {
+			const command = message.command
+
+			switch (command) {
+				case "create-message":
+					await createMessage({
+						db: state().project?.db,
+						message: message.message,
+					})
+
+					updateView()
+					return
+				case "delete-variant":
+					await deleteVariant({
+						db: state().project?.db,
+						variantId: message.id,
+					})
+
+					updateView()
+					return
+				case "delete-bundle":
+					await deleteBundleNested({
+						db: state().project?.db,
+						bundleId: message.id,
+					})
+
+					updateView()
+					return
+				case "change":
+					await handleUpdateBundle({
+						db: state().project?.db,
+						message,
+					})
+
+					updateView()
+					return
+
+				default:
+					console.error("Unknown command from webview:", command)
+			}
+		})
+		disposables.push(disposable)
+	}
+
+	/**
+	 * Update view
+	 */
+	async function updateView() {
+		CONFIGURATION.EVENTS.ON_DID_EDIT_MESSAGE.fire()
+		CONFIGURATION.EVENTS.ON_DID_EDITOR_VIEW_CHANGE.fire()
+
+		panel?.webview.postMessage({
+			command: "change",
+			data: {
+				bundle: await getSelectedBundleByBundleIdOrAlias(bundleId),
+				settings: await state().project?.settings.get(),
+			},
+		})
+
+		const workspaceFolder = vscode.workspace.workspaceFolders![0]
+		if (workspaceFolder) {
+			try {
+				await saveProject({
+					workspaceFolder,
+					fs: createFileSystemMapper(path.normalize(workspaceFolder.uri.fsPath), fs),
+				})
+			} catch (error) {
+				console.error("Failed to save project", error)
+				msg(`Failed to save project. ${String(error)}`, "error")
 			}
 		}
 	}
 
 	/**
-	 * If you want to inject a bundle directly, you could fetch it here and
-	 * embed it. For now, we keep the same style as your React-starter approach.
+	 * Your original logic for generating the HTML,
+	 * including dev vs. prod, React Refresh, etc.
 	 */
-	function getHtmlForWebview(webview: Webview) {
-		const file = "src/index.tsx"
+	function getHtmlForWebview(webview: vscode.Webview) {
+		const file = "src/main.tsx"
 		const localPort = "5173"
 		const localServerUrl = `localhost:${localPort}`
 
-		const stylesUri = getUri(webview, extensionUri, ["webview-ui", "build", "assets", "index.css"])
+		const stylesUri = getUri(webview, extensionUri, [
+			"src",
+			"utilities",
+			"editor",
+			"sherlock-editor-app",
+			"build",
+			"assets",
+			"index.css",
+		])
 
 		let scriptUri: string | vscode.Uri
-		const isProd = Extension.getInstance().isProductionMode
+		const isProd = context.extensionMode === vscode.ExtensionMode.Production
 		if (isProd) {
-			scriptUri = getUri(webview, extensionUri, ["webview-ui", "build", "assets", "index.js"])
+			scriptUri = getUri(webview, extensionUri, [
+				"src",
+				"utilities",
+				"editor",
+				"sherlock-editor-app",
+				"build",
+				"assets",
+				"index.js",
+			])
 		} else {
 			scriptUri = `http://${localServerUrl}/${file}`
 		}
 
 		const nonce = getNonce()
 
+		// The dev-time React Refresh snippet
 		const reactRefresh = /*html*/ `
       <script type="module">
         import RefreshRuntime from "http://localhost:5173/@react-refresh"
@@ -119,6 +234,7 @@ export function createEditorView(
 
 		const reactRefreshHash = "sha256-YmMpkm5ow6h+lfI3ZRp0uys+EUCt6FOyLkJERkfVnTY="
 
+		// CSP
 		const csp = [
 			`default-src 'none';`,
 			`script-src 'unsafe-eval' https://* ${
@@ -142,7 +258,7 @@ export function createEditorView(
         <meta http-equiv="Content-Security-Policy" content="${csp.join("; ")}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="${stylesUri}">
-        <title>VSCode React Starter</title>
+        <title>${bundleId}</title>
       </head>
       <body>
         <div id="root"></div>
@@ -153,109 +269,34 @@ export function createEditorView(
 	}
 
 	/**
-	 * This listens for messages sent from the React app (webview)
-	 * via vscode.postMessage({ command: '...', ... }).
-	 */
-	function setWebviewMessageListener(webview: Webview) {
-		webview.onDidReceiveMessage(
-			async (message: any) => {
-				console.log("Received message from webview:", message)
-				const command = message.command
-
-				switch (command) {
-					case "hello":
-						// Example from your existing code
-						vscode.window.showInformationMessage(message.text)
-						return
-
-					case "updateBundle":
-						// The shape of the message is presumably something like:
-						// {
-						//   command: 'updateBundle',
-						//   bundle: {
-						//     entityId: string,
-						//     entity: 'variant' | 'message',
-						//     newData?: {...}
-						//   }
-						// }
-						await handleUpdateBundle(message)
-						return
-
-					default:
-						console.log("Unknown command from webview:", command)
-				}
-			},
-			undefined,
-			disposables
-		)
-	}
-
-	/**
-	 * Replicates the logic from your old snippet's onDidReceiveMessage => updateBundle.
-	 */
-	async function handleUpdateBundle(message: UpdateBundleMessage) {
-		try {
-			if (!bundleId) {
-				throw new Error("No bundleId set for this view.")
-			}
-
-			// 1. Re-fetch the "original" bundle
-			const originalBundle = await getSelectedBundleByBundleIdOrAlias(bundleId)
-			if (!originalBundle) {
-				throw new Error(`Bundle with id ${bundleId} not found`)
-			}
-
-			// 2. Insert or delete data
-			if (message.bundle.newData) {
-				state()
-					.project?.db.insertInto(message.bundle.entity)
-					.values({
-						...message.bundle.newData,
-					})
-					.onConflict((oc) =>
-						oc.column("id").doUpdateSet({
-							...message.bundle.newData,
-						})
-					)
-					.execute()
-			} else {
-				// If no newData, remove it
-				state()
-					.project?.db.deleteFrom(message.bundle.entity)
-					.where("id", "=", message.bundle.entityId)
-					.execute()
-			}
-
-			// 3. Trigger your extension's events
-			CONFIGURATION.EVENTS.ON_DID_EDIT_MESSAGE.fire()
-			msg("Bundle updated successfully.")
-
-			// Possibly re-render or do something else
-			CONFIGURATION.EVENTS.ON_DID_EDITOR_VIEW_CHANGE.fire()
-		} catch (e) {
-			console.error(`Couldn't update bundle: ${e}`)
-			msg(`Couldn't update bundle. ${String(e)}`, "error")
-		}
-	}
-
-	/**
-	 * Set or get the current bundleId from outside.
+	 * Let external code update the bundleId if desired
 	 */
 	function setBundleId(newBundleId: string) {
 		bundleId = newBundleId
 	}
+
 	function getBundleId() {
 		return bundleId
 	}
 
 	/**
-	 * Return an object matching the `WebviewViewProvider` interface.
-	 * We also expose setBundleId/getBundleId and dispose explicitly.
+	 * Dispose any event listeners or watchers
+	 */
+	function dispose() {
+		while (disposables.length) {
+			const disposable = disposables.pop()
+			if (disposable) disposable.dispose()
+		}
+	}
+
+	/**
+	 * Return an object with methods to show the panel,
+	 * set the bundleId, etc.
 	 */
 	return {
-		resolveWebviewView,
-		dispose,
+		createOrShowPanel,
 		setBundleId,
 		getBundleId,
+		dispose,
 	}
 }

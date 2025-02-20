@@ -1,4 +1,4 @@
-# editor-app
+# sherlock-editor-app
 
 ## 0.0.4
 

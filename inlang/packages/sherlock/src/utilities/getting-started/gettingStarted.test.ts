@@ -34,6 +34,9 @@ vi.mock("vscode", () => ({
 		parse: vi.fn(),
 		file: vi.fn(),
 	},
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 describe("createNoProjectsFoundViewProvider", () => {

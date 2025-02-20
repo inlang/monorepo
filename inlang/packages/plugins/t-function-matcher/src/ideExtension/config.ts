@@ -12,21 +12,21 @@ export const ideExtensionConfig = (): ReturnType<
 		],
 		extractMessageOptions: [
 			{
-				callback: (args: { messageId: string }) => ({
-					messageId: args.messageId,
-					messageReplacement: `{t("${args.messageId}")}`,
+				callback: (args: { bundleId: string }) => ({
+					bundleId: args.bundleId,
+					messageReplacement: `{t("${args.bundleId}")}`,
 				}),
 			},
 			{
-				callback: (args: { messageId: string }) => ({
-					messageId: args.messageId,
-					messageReplacement: `t("${args.messageId}")`,
+				callback: (args: { bundleId: string }) => ({
+					bundleId: args.bundleId,
+					messageReplacement: `t("${args.bundleId}")`,
 				}),
 			},
 			{
-				callback: (args: { messageId: string }) => ({
-					messageId: args.messageId,
-					messageReplacement: args.messageId,
+				callback: (args: { bundleId: string }) => ({
+					bundleId: args.bundleId,
+					messageReplacement: args.bundleId,
 				}),
 			},
 		],

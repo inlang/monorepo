@@ -32,9 +32,6 @@ class VSCodeAPIWrapper {
 		if (this.vsCodeApi) {
 			// In VS Code, use the official API
 			this.vsCodeApi.postMessage(message)
-		} else {
-			// In a regular browser, just log to console (fallback)
-			console.log("postMessage (browser fallback):", message)
 		}
 	}
 

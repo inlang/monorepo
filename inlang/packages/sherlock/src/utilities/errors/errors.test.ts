@@ -29,6 +29,9 @@ vi.mock("vscode", () => ({
 			writeText: vi.fn(),
 		},
 	},
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 // Mock the state module

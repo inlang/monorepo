@@ -64,6 +64,10 @@ describe("Paraglide Message Parser", () => {
     const sourceCode = `
 		import * as m from from "../../i18n-generated/messages";
 		
+    m.someFunction({
+      args1: "hello", 
+      args2: "world"
+    });
 		m.someFunction({args1: "", args2: ""}, {languageTag: "en"});
 		m.some_function({args1: "", args2: ""}, {languageTag: "en"});
 		`;
@@ -72,15 +76,22 @@ describe("Paraglide Message Parser", () => {
       {
         messageId: "someFunction",
         position: {
-          start: { line: 4, character: 5 },
-          end: { line: 4, character: 62 },
+          start: { line: 4, character: 7 },
+          end: { line: 4, character: 72 },
+        },
+      },
+      {
+        messageId: "someFunction",
+        position: {
+          start: { line: 8, character: 5 },
+          end: { line: 8, character: 62 },
         },
       },
       {
         messageId: "some_function",
         position: {
-          start: { line: 5, character: 5 },
-          end: { line: 5, character: 63 },
+          start: { line: 9, character: 5 },
+          end: { line: 9, character: 63 },
         },
       },
     ]);

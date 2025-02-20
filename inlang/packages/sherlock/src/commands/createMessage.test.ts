@@ -1,12 +1,13 @@
 import { describe, it, beforeEach, expect, vi } from "vitest"
 import { createMessageCommand } from "./createMessage.js"
 import { msg } from "../utilities/messages/msg.js"
-import { window } from "vscode"
+import { window, commands } from "vscode"
 import { CONFIGURATION } from "../configuration.js"
 import { getSetting } from "../utilities/settings/index.js"
 import { telemetry } from "../services/telemetry/index.js"
-import { humanId } from "@inlang/sdk"
+import { humanId, upsertBundleNested } from "@inlang/sdk"
 import { state } from "../utilities/state.js"
+import { v4 as uuidv4 } from "uuid"
 
 vi.mock("vscode", () => ({
 	window: {
@@ -40,16 +41,20 @@ vi.mock("../configuration", () => ({
 }))
 
 vi.mock("../utilities/settings", () => ({
-	getSetting: vi.fn().mockResolvedValue(false),
+	getSetting: vi.fn(),
 }))
 
 vi.mock("@inlang/sdk", () => ({
 	humanId: vi.fn().mockReturnValue("randomBundleId123"),
-	createMessage: vi.fn(),
+	upsertBundleNested: vi.fn(),
 }))
 
 vi.mock("../utilities/state", () => ({
 	state: vi.fn(),
+}))
+
+vi.mock("uuid", () => ({
+	v4: vi.fn().mockReturnValue("mocked-uuid-123"),
 }))
 
 describe("createMessageCommand", () => {
@@ -86,36 +91,39 @@ describe("createMessageCommand", () => {
 			},
 		})
 
+		// Ensure getSetting always returns a Promise
+		vi.mocked(getSetting).mockResolvedValueOnce(true)
+
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("Some message content")
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce(undefined)
+
 		await createMessageCommand.callback()
+
 		expect(window.showInputBox).toHaveBeenCalledTimes(2)
 		expect(msg).not.toHaveBeenCalled()
 	})
 
 	it("should show error message if message creation fails", async () => {
-		// Mock state with proper transaction rejection
 		vi.mocked(state).mockReturnValue({
 			project: {
 				// @ts-expect-error
 				settings: {
 					get: vi.fn().mockResolvedValueOnce({ baseLocale: "en" }),
 				},
-				db: {
-					// @ts-expect-error
-					transaction: () => ({
-						execute: vi.fn().mockRejectedValueOnce(new Error("Some error")),
-					}),
-				},
 			},
 		})
+
+		// Ensure getSetting always returns a Promise
+		vi.mocked(getSetting).mockResolvedValueOnce(false)
 
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("Some message content")
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("messageId123")
+
+		vi.mocked(upsertBundleNested).mockRejectedValueOnce(new Error("Some error"))
 
 		await createMessageCommand.callback()
 
@@ -125,29 +133,28 @@ describe("createMessageCommand", () => {
 	})
 
 	it("should create message and show success message", async () => {
-		// Mock state with proper transaction rejection
 		vi.mocked(state).mockReturnValue({
 			project: {
 				// @ts-expect-error
 				settings: {
 					get: vi.fn().mockResolvedValueOnce({ baseLocale: "en" }),
 				},
-				db: {
-					// @ts-expect-error
-					transaction: () => ({
-						execute: vi.fn().mockResolvedValueOnce(true),
-					}),
-				},
 			},
 		})
+
+		// Ensure getSetting always returns a Promise
+		vi.mocked(getSetting).mockResolvedValueOnce(false)
 
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("Some message content")
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("messageId123")
 
+		vi.mocked(upsertBundleNested).mockResolvedValueOnce(true)
+
 		await createMessageCommand.callback()
 
+		expect(upsertBundleNested).toHaveBeenCalled()
 		expect(CONFIGURATION.EVENTS.ON_DID_CREATE_MESSAGE.fire).toHaveBeenCalled()
 		expect(telemetry.capture).toHaveBeenCalled()
 		expect(msg).toHaveBeenCalledWith("Message created.")
@@ -162,11 +169,14 @@ describe("createMessageCommand", () => {
 				},
 			},
 		})
-		// @ts-expect-error
-		getSetting.mockResolvedValueOnce(true)
+
+		vi.mocked(getSetting).mockResolvedValueOnce(true)
+
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("Some message content")
+
 		await createMessageCommand.callback()
+
 		expect(humanId).toHaveBeenCalled()
 		expect(window.showInputBox).toHaveBeenCalledWith({
 			title: "Enter the ID:",
@@ -186,8 +196,7 @@ describe("createMessageCommand", () => {
 			},
 		})
 
-		// @ts-expect-error
-		getSetting.mockResolvedValueOnce(false)
+		vi.mocked(getSetting).mockResolvedValueOnce(false)
 
 		// @ts-expect-error
 		window.showInputBox.mockResolvedValueOnce("Some message content")
@@ -195,15 +204,10 @@ describe("createMessageCommand", () => {
 		await createMessageCommand.callback()
 
 		expect(humanId).not.toHaveBeenCalled()
-
 		expect(window.showInputBox).toHaveBeenCalledWith({
 			title: "Enter the ID:",
 			value: "",
 			prompt: undefined,
-		})
-
-		expect(window.showInputBox).toHaveBeenCalledWith({
-			title: "Enter the message content:",
 		})
 	})
 })

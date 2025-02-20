@@ -6,6 +6,9 @@ vi.mock("vscode", () => {
 	return {
 		commands: vi.fn(),
 		EventEmitter: vi.fn(),
+		CodeActionKind: {
+			QuickFix: vi.fn(),
+		},
 	}
 })
 

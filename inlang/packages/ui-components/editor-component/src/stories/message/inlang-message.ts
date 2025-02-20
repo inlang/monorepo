@@ -286,8 +286,9 @@ export default class InlangMessage extends LitElement {
 										messageId: this.message.id,
 										// combine the matches that are already present with the new category -> like a matrix
 										matches: this.message.selectors.map((selector) => ({
-											type: "catchall-match",
+											type: "literal-match",
 											key: selector.name,
+											value: "",
 										})),
 										pattern: [],
 									};

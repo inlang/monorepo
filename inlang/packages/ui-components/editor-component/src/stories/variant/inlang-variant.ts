@@ -163,9 +163,9 @@ export default class InlangVariant extends LitElement {
                     size="small"
                     value=${match.type === "literal-match" ? match.value : "*"}
                     @sl-blur=${(e: Event) => {
-                      const element = this.shadowRoot?.getElementById(
-                        `${this.variant.id}-${match}`
-                      );
+											const element = this.shadowRoot?.getElementById(
+												`${this.variant.id}-${match.key}`
+											);
                       if (element && e.target === element) {
                         this._updateMatch(
                           match.key,

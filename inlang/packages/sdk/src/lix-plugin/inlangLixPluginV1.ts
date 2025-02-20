@@ -32,7 +32,7 @@ export const inlangLixPluginV1: LixPlugin<{
 			const newDb = neu
 				? initDb({
 						sqlite: await loadDatabaseInMemory(neu.data),
-					})
+				  })
 				: undefined;
 
 			const newProjectBundles = await newDb

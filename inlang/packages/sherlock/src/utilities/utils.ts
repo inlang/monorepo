@@ -1,7 +1,7 @@
 import type { TelemetryEvents } from "../services/telemetry/events.js"
 import { telemetry } from "../services/telemetry/index.js"
 import * as vscode from "vscode"
-import { version } from "../../package.json"
+import packageJson from "../../package.json" assert { type: "json" }
 
 // Utility Functions
 export function telemetryCapture(event: TelemetryEvents, properties?: Record<string, any>) {
@@ -9,7 +9,7 @@ export function telemetryCapture(event: TelemetryEvents, properties?: Record<str
 		event,
 		properties: {
 			vscode_version: vscode.version,
-			version,
+			version: packageJson.version,
 			...properties,
 		},
 	})

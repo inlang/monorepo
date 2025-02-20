@@ -16,6 +16,9 @@ vi.mock("vscode", () => ({
 			fsPath: "/test/path",
 		},
 	},
+	CodeActionKind: {
+		QuickFix: vi.fn(),
+	},
 }))
 
 describe("openProjectCommand", () => {

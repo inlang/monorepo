@@ -2,6 +2,7 @@
 	"extends": "@opral/tsconfig/default",
 	"include": ["src/**/*", "./build.js", "test/test.cts"],
 	"compilerOptions": {
+		"module": "NodeNext",
 		"lib": ["ESNext"],
 		"outDir": "./dist",
 		"resolveJsonModule": true

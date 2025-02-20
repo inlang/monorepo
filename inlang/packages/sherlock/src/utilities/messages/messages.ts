@@ -23,8 +23,6 @@ export function createMessageWebviewProvider(args: {
 	let debounceTimer: NodeJS.Timeout | undefined
 
 	const updateMessages = async () => {
-		console.log("updateMessages")
-
 		const project = state().project as InlangProject | undefined
 		if (!project) {
 			isLoading = true
@@ -64,8 +62,6 @@ export function createMessageWebviewProvider(args: {
 	}
 
 	const updateWebviewContent = async () => {
-		console.log("updateWebviewContent")
-
 		const activeEditor = vscode.window.activeTextEditor
 		const fileContent = activeEditor ? activeEditor.document.getText() : ""
 		const ideExtension = (await state().project.plugins.get()).find(
@@ -316,8 +312,6 @@ export function getHtml(args: { mainContent: string; webview: vscode.Webview }):
 				let collapsibles = [];
 				let copyButtons = [];
 				const vscode = acquireVsCodeApi();
-
-				console.log('vscode', vscode);
 			
 				document.addEventListener('DOMContentLoaded', () => {
 					collapsibles = document.querySelectorAll('.collapsible');

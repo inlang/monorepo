@@ -1,6 +1,6 @@
 import type { InlangPlugin } from "@inlang/sdk";
 import { parse } from "./messageReferenceMatchers.js";
-import transformMessageId from "./utils/transformMessageId.js";
+import transformBundleId from "./utils/transformBundleId.js";
 
 export const ideExtensionConfig = (): ReturnType<
 	Exclude<InlangPlugin["addCustomApi"], undefined>
@@ -13,20 +13,20 @@ export const ideExtensionConfig = (): ReturnType<
 		],
 		extractMessageOptions: [
 			{
-				callback: (args: { messageId: string }) => {
-					const messageId = transformMessageId(args.messageId);
+				callback: (args: { bundleId: string }) => {
+					const bundleId = transformBundleId(args.bundleId);
 					return {
-						messageId,
-						messageReplacement: `{m.${messageId}()}`,
+						bundleId,
+						messageReplacement: `{m.${bundleId}()}`,
 					};
 				},
 			},
 			{
-				callback: (args: { messageId: string }) => {
-					const messageId = transformMessageId(args.messageId);
+				callback: (args: { bundleId: string }) => {
+					const bundleId = transformBundleId(args.bundleId);
 					return {
-						messageId,
-						messageReplacement: `m.${messageId}()`,
+						bundleId,
+						messageReplacement: `m.${bundleId}()`,
 					};
 				},
 			},
