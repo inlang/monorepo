@@ -1,5 +1,11 @@
 # @opral/markdown-wc-doc-elements
 
+## 0.3.2
+
+### Patch Changes
+
+- 41a7580: doc callout wraps slot children in div to avoid flex styling
+
 ## 0.3.1
 
 ### Patch Changes

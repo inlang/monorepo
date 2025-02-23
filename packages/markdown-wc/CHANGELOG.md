@@ -1,5 +1,12 @@
 # @opral/markdown-wc
 
+## 0.5.0
+
+### Minor Changes
+
+- 206dd9d: give inline code blocks a background color
+- 41a7580: add table column and row lines
+
 ## 0.4.1
 
 ### Patch Changes
